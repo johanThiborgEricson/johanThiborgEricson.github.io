@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Semantics! demo</title>
+    <link rel="stylesheet" href="lib/jasmine-2.6.4/jasmine.css">
+  
+    <script src="lib/jasmine-2.6.4/jasmine.js"></script>
+    <script src="lib/jasmine-2.6.4/jasmine-html.js"></script>
+    <script src="lib/jasmine-2.6.4/boot.js"></script>
+    
+    <script src="lib/semantics/InterpreterMethodFactory.js"></script>
+    <script src="lib/semantics/CodePointer.js"></script>
+  </head>
+  
+  <body>
+    <h1>
+A demonstration of the Semantics! library
+    </h1>
+    <p>
+Semantics! is a library for implementing interpreters of structured text, e. g. 
+lists, markup or computer languages. I wrote it as a part of another project, 
+Barbersynth, but I was more pleased with the interpreter part of that project 
+than the rest of it, so I decided to give the interpreter some extra attention 
+here. 
+    </p>
+    <h2>
+Interactive gui demo
+    </h2>
+    <p>
+In this document, I will design a simple math language and implement an 
+interpreter for that language using the Semantics! library as an demonstration 
+of how it works. I will also build a simple calculator to make the interpreter 
+interactive. The calculator will look something like this: 
+    </p>
+    <script>
+function Calculator(interpreter, formElement) {
+  this.interpreter = interpreter;
+  this.input = document.createElement("input");
+  this.output = document.createElement("output");
+  this.submit = document.createElement("submit");
+  this.submit.value = "calculate";
+  this.element = formElement;
+  formElement.appendChild(this.input);
+  formElement.appendChild(this.submit);
+  formElement.appendChild(this.output);
+  
+  formElement.addEventListener("submit", this);
+}
+
+Calculator.prototype.handleEvent = function() {
+  var userInput = this.input.value;
+  var result = this.interpreter.expression(userInput);
+  this.output.value = result;
+};
+
+describe("The calculator", function() {
+  it("calls the interpreter with the content of the input and sets the " + 
+  "output to the result", function() {
+    var interpreter = {
+      expression: function() {
+        
+      }
+      
+    };
+    
+    spyOn(interpreter, "expression").and.returnValue("the result");
+    var form = document.createElement("form");
+    var calculator = new Calculator(interpreter, form);
+    calculator.input.value = "user input";
+    
+    var submitEvent = new Event("submit");
+    calculator.element.dispatchEvent(submitEvent);
+    
+    expect(interpreter.expression).toHaveBeenCalledWith("user input");
+    expect(calculator.output.value).toBe("the result");
+  });
+});
+    </script>
+    <pre>
+function Calculator(interpreter, formElement) {
+  this.interpreter = interpreter;
+  this.input = document.createElement("input");
+  this.output = document.createElement("output");
+  this.submit = document.createElement("submit");
+  this.submit.value = "calculate";
+  this.element = formElement;
+  formElement.appendChild(this.input);
+  formElement.appendChild(this.submit);
+  formElement.appendChild(this.output);
+  
+  formElement.addEventListener("submit", this);
+}
+
+Calculator.prototype.handleEvent = function() {
+  var userInput = this.input.value;
+  var result = this.interpreter.expression(userInput);
+  this.output.value = result;
+};
+    </pre>
+    <p>
+You use it by writing the expression in the left field. When you hit "Calculate" 
+it will pass what you have written to the interpreter through its expression 
+method. The choise of the name "expression" might seem a little strange, but 
+that will be made 
+clear later on. The result of the interpretation will be presented in the 
+rightmost field. 
+    </p>
+    <h2>
+Terminals and capturing groups
+    </h2>
+    <p>
+The most central component of a math language is the number. In computer 
+science and semantics, such a component is called a "terminal". The Semantics! 
+library has a way of creating terminals, and I will show how it could be done 
+for the number terminal. I will make this as simple as possible as not to 
+distract from the demonstration of the functionallity of the library. Therefore 
+I will define a number as one or more digits that may start with zeros. 
+Semantics uses regular expressions to identify terminals. My definition of a 
+number has the regular expression /[0-9]+/.
+    </p>
+    <p>
+In Semantics!, you must use capturing groups, so the expression becomes 
+/([0-9]+)/. This has the practical effect that parts of the text that doesn't 
+carry any meaning can be left out of the capruring group. For example, I want 
+my language to allow for whitespaces. I can easily do this by adding optional 
+whitespaces to the regexp, but to left them out of the capturing group that 
+defines the part of the text that carries meaning. This makes the new regexp 
+/\s*([0-9]+)\s*/. The interpreter will accept spaces, but it wont make any use 
+of them. Now we are ready to create our first terminal expression!
+    </p>
+    <script>
+var factory = new InterpreterMethodFactory();
+
+var interpreter = {};
+interpreter.expression = factory.terminal(/\s*([0-9]+)\s*/, function(number) {
+  return Number(number);
+});
+
+describe("A simple expression that just handles integers", function() {
+  it("handles integers", function() {
+    expect(interpreter.expression("42")).toBe(42);
+  });
+  
+  it("accepts leading zeros", function() {
+    expect(interpreter.expression("0042")).toBe(42);
+  });
+})
+    </script>
+    <pre>
+var factory = new InterpreterMethodFactory();
+
+var interpreter = {};
+interpreter.expression = factory.terminal(/\s*([0-9]+)\s*/, function(number) {
+  return Number(number);
+};
+    </pre>
+    <p>
+Let's go through that step by step. First we create an InterpreterMethodFactory, 
+which is an object that makes interpreter methods for other objects. Next we 
+create the object that is going to be the interpreter of our language. Then we 
+use the method factory to create a new terminal method. To do that, it needs 
+two things: the syntax of a number and the semantics of a number. The capturing 
+group of the regular expression provides the syntax and the function provides 
+the semantics of a number. Numbers have a simple semantic in most languages. It 
+just reports its value for the statements around it to use. In the Semantics! 
+library, this is accomplished by a return statement. Later on we will see how 
+the statements around the number will be notified of its return value, but for 
+now it works like this.      
+    </p>
+    <p>
+The terminal method of the factory object will create a new method that is 
+supposed to be put on an interpreter object. The created method will accept a
+string and match it to the regular expression. Next it will call the supplied 
+function as if it where a method of the interpreter object with the captured 
+group as argument. Our particular function calls the Number constructor, 
+because that is an easy way of converting strings to numbers in javascript. 
+Remember that the group captured by the regular expression will be a string, 
+not a number. The resulting number of the function will then be returned by the 
+expression method of the interpreter. 
+    </p>
+    <p>
+I want you to think of the terminal method as a way of making a function that 
+can split a string argument into several string arguments, one per 
+capturing group,
+    </p>
+    <pre>
+function(string) {code} + /(capturingGroup1)(capturingGroup2).../ + magic -> 
+-> function(match1, match2, ...) {code}
+    </pre>
+    <p>
+or, more formally
+    </p>
+    <pre>
+InterpreterMethodFactory.prototype.terminal = function(regexp, callback) {
+  return function(text) {
+    var match = regexp.exec(text);
+    callback.apply(this, match.slice(1));
+  };
+};
+    </pre>
+    <p>
+The actuall code is more complicated than this, mostly because of Semantics! 
+ability to backtrack alternative interpretations requires it to separate the 
+matching step from the execution step. In fact it recursively builds a single 
+monolithic instruction from the whole text and executes it. Not very 
+efficient, I admit, but if the current part of the code can be interpreted in 
+several ways, Semantics! is able to look further in the code to determine which 
+of them is the correct one. 
+    </p>
+    <p>
+In fact, Semantics! can handle languageswhere the last letter determines the 
+interpretation of the rest of the text. Semantics! will just build an 
+instruction for all of the code and discard that instruction if the last letter 
+doesn't match, and redo it for all the interpretations corresponding to each 
+possible last letter until the last letter matches. Firstly then, anything is 
+executed. Since nothing was executed for the wrong interpretations, they will 
+leave no side effects. Please don't make such a language.
+    </p>
+  </body>
+</html>
