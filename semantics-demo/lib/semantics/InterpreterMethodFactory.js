@@ -82,7 +82,7 @@ InterpreterMethodFactory.prototype
   }
   
   var instructionMaker = function(codePointer, interpreter) {
-    var instructions = {};
+    var instructions = [];
     for(var i = 0; i < names.length; i++) {
       var name = names[i];
       var maybeInstruction = interpreter[name](codePointer);
@@ -90,17 +90,18 @@ InterpreterMethodFactory.prototype
         return null;
       }
       
-      instructions[name] = maybeInstruction;
+      instructions[i] = maybeInstruction;
     }
 
     var instruction = function(interpreter) {
       var resultsArray = [];
       var resultsObject = {};
-      names.map(function(name) {
-        var result = instructions[name](interpreter);
+      for(var i = 0; i < names.length; i++) {
+        var name = names[i];
+        var result = instructions[i](interpreter);
         resultsArray.push(result);
         resultsObject[name] = result;
-      });
+      }
       
       if(interpretation) {
         return interpretation.apply(interpreter, resultsArray);

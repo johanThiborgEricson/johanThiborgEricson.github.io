@@ -1,0 +1,9 @@
+Rename expression to number in first example.
+Pass the name of the method to be tested to the calculator.
+Make make interpreter throw a meaningful error if an unknown method is 
+  referenced.
+Pass the full match to the terminal as the last argument so you don't have to 
+  capture all of the regular expression.
+Make sequence accept regular expression arguments and make anonymous terminals 
+  with no interpretation.
+Explain that nonTerminalStar is not greedy.

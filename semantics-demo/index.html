@@ -33,24 +33,31 @@ of how it works. I will also build a simple calculator to make the interpreter
 interactive. The calculator will look something like this: 
     </p>
     <script>
-function Calculator(interpreter, formElement) {
+function Calculator(interpreter, formElement, name) {
+  this.name = name;
   this.interpreter = interpreter;
   this.input = document.createElement("input");
-  this.output = document.createElement("output");
-  this.submit = document.createElement("submit");
+  this.output = document.createElement("input");
+  this.submit = document.createElement("input");
+  this.submit.type = "submit";
   this.submit.value = "calculate";
   this.element = formElement;
   formElement.appendChild(this.input);
   formElement.appendChild(this.submit);
   formElement.appendChild(this.output);
   
+  // otherwise the page relodes
+  formElement.onsubmit = function() {
+    return false;
+  };
   formElement.addEventListener("submit", this);
 }
 
 Calculator.prototype.handleEvent = function() {
   var userInput = this.input.value;
-  var result = this.interpreter.expression(userInput);
+  var result = this.interpreter[this.name](userInput);
   this.output.value = result;
+  return false;
 };
 
 describe("The calculator", function() {
@@ -65,7 +72,7 @@ describe("The calculator", function() {
     
     spyOn(interpreter, "expression").and.returnValue("the result");
     var form = document.createElement("form");
-    var calculator = new Calculator(interpreter, form);
+    var calculator = new Calculator(interpreter, form, "expression");
     calculator.input.value = "user input";
     
     var submitEvent = new Event("submit");
@@ -77,34 +84,93 @@ describe("The calculator", function() {
 });
     </script>
     <pre>
-function Calculator(interpreter, formElement) {
+function Calculator(interpreter, formElement, name) {
+  this.name = name;
   this.interpreter = interpreter;
   this.input = document.createElement("input");
-  this.output = document.createElement("output");
-  this.submit = document.createElement("submit");
+  this.output = document.createElement("input");
+  this.submit = document.createElement("input");
+  this.submit.type = "submit";
   this.submit.value = "calculate";
   this.element = formElement;
   formElement.appendChild(this.input);
   formElement.appendChild(this.submit);
   formElement.appendChild(this.output);
   
+  // otherwise the page relodes
+  formElement.onsubmit = function() {
+    return false;
+  };
   formElement.addEventListener("submit", this);
 }
 
 Calculator.prototype.handleEvent = function() {
   var userInput = this.input.value;
-  var result = this.interpreter.expression(userInput);
+  var result = this.interpreter[this.name](userInput);
   this.output.value = result;
+  return false;
 };
     </pre>
     <p>
-You use it by writing the expression in the left field. When you hit "Calculate" 
-it will pass what you have written to the interpreter through its expression 
-method. The choise of the name "expression" might seem a little strange, but 
-that will be made 
-clear later on. The result of the interpretation will be presented in the 
-rightmost field. 
+The name argument in the constructor specifies what method of the interpreter 
+we want to use. 
+You use the calculator by writing an expression in the left field. 
+When you hit "Calculate" it will call the method of interpreter that was 
+defined in the name argument of the constructor. It will call that method with 
+the text content of the left field. The result of the interpretation will be 
+presented in the rightmost field. 
     </p>
+    <p>
+Lets make a dummy interpreter that answers 
+every question with 42, just to test the calculator. Write a question in the 
+left field, click calculate ant try to understand the answer given in the right 
+field.
+    </p>
+    <form id="dummy"></form>
+    <script>
+var dummyInterpreter = {
+  expression: function(question) {
+    return "The ansver to '" + question + "' is 42.";
+  }
+};
+
+var dummyForm = document.getElementById("dummy");
+var dummyCalculator = new Calculator(dummyInterpreter, dummyForm, "expression");
+
+describe("The dummy calculator", function() {
+  it("doesn't throw errors when submited", function() {
+    expect(function() {
+      dummyCalculator.handleEvent();
+    }).not.toThrow();
+    
+    expect(dummyCalculator.output.value).not.toBe("");
+    dummyCalculator.input.value = "";
+    dummyCalculator.output.value = "";
+
+  });
+  
+});
+
+    </script>
+    <p>
+HTML:
+    </p>
+    <pre>
+&lt;form id="dummy"&gt;&lt;/form&gt;
+    </pre>
+    <p>
+JavaScript:
+    </p>
+    <pre>
+var dummyInterpreter = {
+  expression: function(question) {
+    return "The ansver to '" + question + "' is 42.";
+  }
+};
+
+var dummyForm = document.getElementById("dummy");
+new Calculator(dummyInterpreter, dummyForm, "expression");
+    </pre>
     <h2>
 Terminals and capturing groups
     </h2>
@@ -132,17 +198,17 @@ of them. Now we are ready to create our first terminal expression!
 var factory = new InterpreterMethodFactory();
 
 var interpreter = {};
-interpreter.expression = factory.terminal(/\s*([0-9]+)\s*/, function(number) {
+interpreter.number = factory.terminal(/\s*([0-9]+)\s*/, function(number) {
   return Number(number);
 });
 
 describe("A simple expression that just handles integers", function() {
   it("handles integers", function() {
-    expect(interpreter.expression("42")).toBe(42);
+    expect(interpreter.number("42")).toBe(42);
   });
   
   it("accepts leading zeros", function() {
-    expect(interpreter.expression("0042")).toBe(42);
+    expect(interpreter.number("0042")).toBe(42);
   });
 })
     </script>
@@ -150,15 +216,37 @@ describe("A simple expression that just handles integers", function() {
 var factory = new InterpreterMethodFactory();
 
 var interpreter = {};
-interpreter.expression = factory.terminal(/\s*([0-9]+)\s*/, function(number) {
+interpreter.number = factory.terminal(/\s*([0-9]+)\s*/, function(number) {
   return Number(number);
-};
+});
     </pre>
     <p>
-Let's go through that step by step. First we create an InterpreterMethodFactory, 
-which is an object that makes interpreter methods for other objects. Next we 
-create the object that is going to be the interpreter of our language. Then we 
-use the method factory to create a new terminal method. To do that, it needs 
+Let's try that in our Calculator. Write a positive, whole number, possibly with 
+surounding spaces.
+    </p>
+    <form id="number"></form>
+    <script>
+var numberCalc = new Calculator(interpreter, document.getElementById("number"), "number");
+describe("The number calculator", function() {
+  it("computes", function() {
+    numberCalc.input.value = "1";
+    expect(function() {
+      numberCalc.handleEvent();
+    }).not.toThrow();
+    
+    expect(numberCalc.output.value).toBe("1");
+    numberCalc.input.value = "";
+    numberCalc.output.value = "";
+  });
+});
+    </script>
+    <p>
+In the first line of the code we create an InterpreterMethodFactory, 
+which is an object that makes interpreter methods for other objects. 
+Next we create the object that is going to be the interpreter of our language. 
+Then we 
+use the method factory to create a new terminal method for our interpreter. 
+To do that, it needs 
 two things: the syntax of a number and the semantics of a number. The capturing 
 group of the regular expression provides the syntax and the function provides 
 the semantics of a number. Numbers have a simple semantic in most languages. It 
@@ -215,6 +303,130 @@ doesn't match, and redo it for all the interpretations corresponding to each
 possible last letter until the last letter matches. Firstly then, anything is 
 executed. Since nothing was executed for the wrong interpretations, they will 
 leave no side effects. Please don't make such a language.
+    </p>
+    <h2>
+Sequences
+    </h2>
+    <p>
+So far, all we have done could easily be accomplished with the 
+Number constructor. Now I will show how the sequencing feature of Semantics! 
+may be used to do some actuall computations, by giving our interpreter the 
+ability to add two numbers.
+    </p>
+    <script>
+interpreter.plusSign = factory.terminal(/(\+)/, function() {});
+
+interpreter.add = factory.nonTerminalSequence("number", "plusSign", "number"
+, function(number1, plusSign, number2) {
+  return number1+number2;
+});
+
+describe("interpreter.add", function() {
+  it("can add two numbers", function() {
+    expect(interpreter.add("1+2")).toBe(3);
+  });
+  
+});
+
+    </script>
+    <pre>
+interpreter.plusSign = factory.terminal(/(\+)/, function() {});
+
+interpreter.add = factory.nonTerminalSequence("number", "plusSign", "number"
+, function(number1, plusSign, number2) {
+  return number1+number2;
+});
+    </pre>
+    <p>
+Before we dive into the code, here is an calculator connected to the add method. 
+Remember that the calculator calls the add method with the string content of the 
+left input and prints the result of the add method to the right input. Indeed, 
+all methods produced by InterpreterMethodFactory should be called with a string 
+to parse. Try adding two numbers, e. g. 1+2.
+    </p>
+    <form id="add"></form>
+    <script>
+var addCalc = new Calculator(interpreter, document.getElementById("add"), "add");
+describe("The add calculator", function() {
+  it("computes", function() {
+    addCalc.input.value = "1+2";
+    expect(function() {
+      addCalc.handleEvent();
+    }).not.toThrow();
+    
+    expect(addCalc.output.value).toBe("3");
+    addCalc.input.value = "";
+    addCalc.output.value = "";
+  });
+});
+    </script>
+    <p>
+First we make a terminal that just matches a plus-sign without actually doing 
+anything with it. Hence the empty function in its definition. That might seem 
+unnecessary, but to match an addition we will have to match a plus-sign, even 
+if we don't explicitly with it. Rather, the plus sign will be used to determine 
+the meaning of the numbers around it: they should be added.
+    </p>
+    <p>
+I agree that this is a rather awkvard way of doing it. I would rather be able 
+to write:
+    </p>
+    <pre>
+interpreter.add = factory.nonTerminalSequence("number", /\+/, "number"
+, function(number1, number2) {
+  return number1+number2;
+});
+    </pre>
+    <p>
+It's on my todo list.
+    </p>
+    <p>
+The nonTerminalSequence method accepts one or more strings and one function. 
+The strings are names of other parsing methods on the interpreter object. When 
+the method, add in this case, is called it will call the named methods and 
+remember their results. It then calls the function with the results as 
+arguments. Informally it works like this:
+    </p>
+    <pre>
+interpreter.add(string) + (number1 -> result1 + plusSign + number2 -> result2) +
++ magic -> interpreter.add(result1, plusResult, result2)
+    </pre>
+    <p>
+More formaly it works like this:
+    </p>
+    <pre>
+InterpreterMethodFactory.prototype
+.nonTerminalSequence = function(methodName1, methodName2, ..., callback) {
+  return function(text) {
+    // text is split into text1, text2, ... according to the syntax of 
+    // this[methodName1], this[methodName2], ...
+    var results = [this[methodName1](text1), this[methodName2](text2), ...];
+    callback.apply(this, results);
+  };
+  
+};
+    </pre>
+    <p>
+The text is split by letting methodName1 parsing the text, method2 parsing the 
+rest of the text and so on. There can be nothing "between" the text that the 
+methods parses, they only consider a match at the beginning of the text they 
+get.
+    </p>
+    <p>
+There is an important difference between when the methods are called "from the 
+outside" and when they are called internaly, e. g. as a part of a
+nonTerminalSequence. When they are called from the outside they don't accept 
+any "trailing code". Even if the begining of the text matches, the interpreter 
+will throw an error if the end of the text can't be parsed. When a parser 
+method is called internally, on the other hand, it accepts that it only can 
+match the beginning of the text that it is passed.
+    </p>
+    <p>
+The reason for this slightly dramatic behavior is that the methods produced 
+by Semantics! generally has a return value, so there is no room for a match 
+result. Furthermore I can't think of a use case where it is better to use 
+Sematics! for matching than regular expressions. But if there is a popular 
+demand for a matching version, I will consider writing it.
     </p>
   </body>
 </html>
