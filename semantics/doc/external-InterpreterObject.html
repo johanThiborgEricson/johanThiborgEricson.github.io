@@ -1,0 +1,2900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: External: InterpreterObject</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">External: InterpreterObject</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>InterpreterObject</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">An interpreter object is a user created object that has one or 
+more <a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a>s created using an 
+<a href="InterpreterMethodFactory.html">InterpreterMethodFactory</a>. 
+This is not a description of a real class, neither is it an interface that 
+can be implemented. 
+Rather, the methods of this class are descriptions of the type of 
+interpreter methods that an interpreter method factory can create for an 
+interpreter object. 
+Normaly, all interpretation callback functions supplied when creating 
+interpreter methods will run as methods of their interpreter object, i. e. 
+<tt>this</tt> will be bound to the interpreter object inside the 
+interpretation body.
+However, 
+<a href="external-InterpreterObject.html#methodFactoryTypeInterpreterMethod">external:InterpreterObject#methodFactoryTypeInterpreterMethod</a> may be 
+used to set the <tt>this</tt> binding to another object. See also 
+<a href="external-ThisBinding.html">external:ThisBinding</a>.</div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_InterpreterMethodFactory.js.html">src/InterpreterMethodFactory.js</a>, <a href="src_InterpreterMethodFactory.js.html#line361">line 361</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="atomTypeInterpreterMethod"><span class="type-signature"></span>atomTypeInterpreterMethod<span class="signature">(text, printDebuggingMessages<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#InterpreterMethodResult">InterpreterMethodResult</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    An atom type interpreter method is a method of an 
+<a href="external-InterpreterObject.html">external:InterpreterObject</a> that has been made by passing a regular 
+expression and possibly an <a href="external-ThisBinding.html#atomInterpretation">external:ThisBinding#atomInterpretation</a> 
+to <a href="InterpreterMethodFactory.html#atom">InterpreterMethodFactory#atom</a>.
+It is a type of <a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a>
+that parses and interprets its input text with its regular expression and 
+its interpretation. 
+Parsing is done by trying to match the regular expression at the position 
+in the text where the last interpreter method finished to parse.
+Matches starting at other positions will not be concidered. 
+The full match (corresponding to match[0]) will be parsed, so capturing 
+groups will not have any effect. 
+It returns the parsed text or, if it has an interpretation, the result of 
+calling that interpretation as a method of the interpreter object with the 
+parsed string. 
+Inside the body of the interpretation, <tt>this</tt> will be bound the 
+the object of its interpreter method, as if it was called as a method of 
+the same object.
+If the regular expression can't be matched at the current position in the 
+text, the method fails to parse and the interpretation isn't run.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The text to be interpreted.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>printDebuggingMessages</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">See 
+<a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a>.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_InterpreterMethodFactory.js.html">src/InterpreterMethodFactory.js</a>, <a href="src_InterpreterMethodFactory.js.html#line517">line 517</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="global.html#atomUnitTests">atomUnitTests</a></li>
+        
+            <li><a href="global.html#butNotUnitTests">butNotUnitTests</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The parsed string or, if it is defined 
+with an interpretation, the result of calling the interpretation as if it 
+was a method of the same object with the parsed string.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#InterpreterMethodResult">InterpreterMethodResult</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="emptyTypeInterpreterMethod"><span class="type-signature"></span>emptyTypeInterpreterMethod<span class="signature">(text, printDebuggingMessages<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#InterpreterMethodResult">InterpreterMethodResult</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    An empty type interpreter method doesn't parse anything. 
+It just runs the callback function interpretation passed to its factory 
+function, <a href="InterpreterMethodFactory.html#empty">InterpreterMethodFactory#empty</a>, as if it was a method of 
+the same object, and returns the result. 
+In general, <tt>interpreterObject.emptyTypeInterpreterMethod("")</tt> 
+should be equivalent to <tt>interpretation.call(interpreterObject)</tt>.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The text that won't be interpreted.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>printDebuggingMessages</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">See 
+<a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a>.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_InterpreterMethodFactory.js.html">src/InterpreterMethodFactory.js</a>, <a href="src_InterpreterMethodFactory.js.html#line597">line 597</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="global.html#emptyUnitTests">emptyUnitTests</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The result of calling the 
+interpretation callback function passed to 
+<a href="InterpreterMethodFactory.html#empty">InterpreterMethodFactory#empty</a> when constructing this 
+interpreter method as if it was a method of the same object.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#InterpreterMethodResult">InterpreterMethodResult</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="groupTypeInterpreterMethod"><span class="type-signature"></span>groupTypeInterpreterMethod<span class="signature">(text, printDebuggingMessages<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#InterpreterMethodResult">InterpreterMethodResult</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    A group type interpreter method is an 
+<a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a> 
+that parses a group of other interpreter methods and regular expressions 
+defined in its factory, <a href="InterpreterMethodFactory.html#group">InterpreterMethodFactory#group</a>, one at the 
+time. 
+If one of the regular expressions or interpreter methods fails to parse, 
+then the whole method fails to parse and the text pointer is restored, see 
+<a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a>. 
+It is also important to note that none of the interpretations of the 
+<a href="global.html#part">part</a>s is run before all parts has been successfully parsed, so it 
+is never necessary to "clean up" after a half parsed group.
+If the group was defined with an 
+<a href="external-ThisBinding.html#groupInterpretation">external:ThisBinding#groupInterpretation</a> it will call that with 
+the results of its <a href="global.html#part">part</a>s as arguments, and return the result. 
+Otherwise it will return an 
+<a href="InterpreterMethodFactory_MultiPropertyObject.html">InterpreterMethodFactory#MultiPropertyObject</a>-like object with 
+properties named as the <a href="global.html#interpreterMethodName">interpreterMethodName</a>s containing 
+the results of the <a href="global.html#part">part</a>s of the method.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The text to be parsed by the <a href="global.html#part">part</a>s and 
+the regular expressions.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>printDebuggingMessages</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">See 
+<a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a>.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_InterpreterMethodFactory.js.html">src/InterpreterMethodFactory.js</a>, <a href="src_InterpreterMethodFactory.js.html#line725">line 725</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="global.html#groupUnitTests">groupUnitTests</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    An 
+<a href="InterpreterMethodFactory_MultiPropertyObject.html">InterpreterMethodFactory#MultiPropertyObject</a>-like object 
+or the result of calling the interpretation with the result of its
+<a href="global.html#part">part</a>s.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#InterpreterMethodResult">InterpreterMethodResult</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="insignificantTypeInterpreterMethod"><span class="type-signature"></span>insignificantTypeInterpreterMethod<span class="signature">(text, printDebuggingMessages<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#InterpreterMethodResult">InterpreterMethodResult</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    This <a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a> 
+makes its descendants parse insignificant delimiters between each parse.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Text with insignificant delimiters to be 
+interpreted by the <a href="global.html#part">part</a>.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>printDebuggingMessages</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">See 
+<a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a>.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_InterpreterMethodFactory.js.html">src/InterpreterMethodFactory.js</a>, <a href="src_InterpreterMethodFactory.js.html#line1777">line 1777</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="global.html#insignificantUnitTests">insignificantUnitTests</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The result of its <a href="global.html#part">part</a>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#InterpreterMethodResult">InterpreterMethodResult</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="interpreterMethod"><span class="type-signature">(abstract) </span>interpreterMethod<span class="signature">(text, printDebuggingMessages<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#InterpreterMethodResult">InterpreterMethodResult</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>
+This is a general description that applies to all interpreter methods. 
+An interpreter method interprets text. 
+When it is called from the outside code, it interprets the text of its first 
+argument. 
+When it is called as a <a href="global.html#part">part</a> of another interpreter method, it parses 
+as much of the text as it can, starting from the point in the text where the 
+last interpreter method finished parsing. 
+</p><p>
+If an interpreter method fails to parse, it will return the text pointer so 
+that the next method will start parsing at the same position as the current 
+one started before it failed. 
+All interpreter methods are constructed never to be "half parsed"; if one of 
+its parts fail, then the text pointer will be restored to where the 
+interpreter method started parsing, even if some of the parts before the 
+failing part were successfully parsed. 
+Also, no interpretations of the descendants of an interpreter method will be 
+run until all parts have been successfully parsed.
+Acctually, parsing of all the interpreter methods and running the 
+interpretations of the successfull parsings is done in two completely 
+separate steps. 
+That way it is ensured that nothing that shouldn't be run is run.
+</p><p>
+Most interpreter methods comes in two different types. 
+The first type is constructed without supplying a description of how the 
+interpreter method should interpret the result of its <a href="global.html#part">part</a>s. 
+Then the method will return the results of its parts in some kind of 
+container, like an array (for quantifiers), an object with properties with 
+the same names as the interpreter methods (for groups), a string (for atoms) 
+or just the result of the part (for opt, wrap and select). 
+Interpreter methods of this type will create a parse tree with arrays and 
+objects and strings (from the atoms) as its leafs.
+</p><p>
+The other type of interpreter method is when it is constructed with an 
+interpretation.
+Then the interpreter method acts like a proxy for its interpretation. 
+Instead of returning the results of its parts, the interpreter method will 
+call its interpretation with those results, and then return the result of 
+that call. 
+An interpretation is meant to be thought of as a regular method of the same 
+object as its interpreter method, but with enhanced abilities. 
+Instead of just beeing called with arguments, they can create their own 
+arguments by calling the methods named when they were constructed, or, 
+in the case of atoms, getting their arguments by parsing text with an 
+associated regular expression. 
+Most importantly, interpretations will be run with <tt>this</tt> bound to 
+the same object as their interpreter method. 
+This way, interpretations function exactly like normal methods, but with the 
+extra ability to, before they are called, compute their own arguments that 
+they should be called with, by calling their parts.
+</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The text to be interpreted.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>printDebuggingMessages</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">If this is true, debugging 
+messages are printed to console.log.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_InterpreterMethodFactory.js.html">src/InterpreterMethodFactory.js</a>, <a href="src_InterpreterMethodFactory.js.html#line381">line 381</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+    <dt class="tag-todo">To Do:</dt>
+    <dd class="tag-todo">
+        <ul>
+            <li>Describe parse errors.</li>
+        </ul>
+    </dd>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A type dependant container with the 
+result of the <a href="global.html#part">part</a>s of the method or the result of its 
+interpretation, if an interpretation has been supplied.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#InterpreterMethodResult">InterpreterMethodResult</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="longestTypeInterpreterMethod"><span class="type-signature"></span>longestTypeInterpreterMethod<span class="signature">(text, printDebuggingMessages<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#InterpreterMethodResult">InterpreterMethodResult</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>
+A longest type interpreter method is a type of 
+<a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a> on a user created 
+<a href="external-InterpreterObject.html">external:InterpreterObject</a> constructed by providing the 
+<a href="global.html#interpreterMethodName">interpreterMethodName</a>s of its <a href="global.html#part">part</a>s to 
+<a href="InterpreterMethodFactory.html#longest">InterpreterMethodFactory#longest</a>. 
+</p><p>
+It is similar to an 
+<a href="external-InterpreterObject.html#orTypeInterpreterMethod">external:InterpreterObject#orTypeInterpreterMethod</a> with the 
+difference that it tries to parse <i>all</i> of its parts from the current 
+position in the text, unlike or type interpreter methods that doesn't try 
+to parse any more alternatives once it has found one that succeeds.
+It only runs the one of its <a href="global.html#part">part</a>s that has succeeding parsing the 
+most text so none of the other parts descendant interpretations will be 
+run, even if they have parsed successfully.
+If two or more parts parses the same amount of text, then the first of 
+them will be shoosen, to mimic the behaviour of or.
+The result of that <a href="global.html#part">part</a> will also be the result of the whole 
+interpreter method.
+</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The text that all the <a href="global.html#part">part</a>s should try to 
+parse.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>printDebuggingMessages</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">See 
+<a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a>.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_InterpreterMethodFactory.js.html">src/InterpreterMethodFactory.js</a>, <a href="src_InterpreterMethodFactory.js.html#line1146">line 1146</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="global.html#longestUnitTests">longestUnitTests</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The result of the <a href="global.html#part">part</a> that 
+successfully parsed the most text, or the first one if it is a tie.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#InterpreterMethodResult">InterpreterMethodResult</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="methodFactoryTypeInterpreterMethod"><span class="type-signature"></span>methodFactoryTypeInterpreterMethod<span class="signature">(text, printDebuggingMessages<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {function}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    This <a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a> 
+returns a function doing the same thing as the <a href="global.html#part">part</a> named in its 
+factory, <a href="InterpreterMethodFactory.html#methodFactory">InterpreterMethodFactory#methodFactory</a>, would have done, 
+but with the possibility to use another value for this in the 
+interpretations of its descendant <a href="global.html#part">part</a>s. 
+The new value of this is supplied by running the instruction as a method 
+of the <a href="external-ThisBinding.html">external:ThisBinding</a> object, by using call or apply, or by 
+assigning it as a (temporary) property of the this binding before calling 
+it. 
+If the value of this should not be changed then the interpreter object has 
+to be supplied in one of the beforementioned ways. 
+If the returned function is called directly, interpretations of any 
+descendant parts will get undefined (or worse, window) as the value for 
+this. 
+The returned function takes no arguments (at the moment, this might 
+change).
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The text to be interpreted by the <a href="global.html#part">part</a>.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>printDebuggingMessages</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">See 
+<a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a>.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_InterpreterMethodFactory.js.html">src/InterpreterMethodFactory.js</a>, <a href="src_InterpreterMethodFactory.js.html#line1641">line 1641</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="global.html#methodFactoryUnitTests">methodFactoryUnitTests</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A method that does the same thing as the <a href="global.html#part">part</a> 
+would have, but with the possibility to do it with another <tt>this</tt> 
+binding.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">function</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="optTypeInterpreterMethod"><span class="type-signature"></span>optTypeInterpreterMethod<span class="signature">(text, printDebuggingMessages<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {InterpretationMethodResult}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>
+An opt type interpreter method is a type of 
+<a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a> meant to be on an 
+<a href="external-InterpreterObject.html">external:InterpreterObject</a> created by the user. 
+It is the result of calling <a href="InterpreterMethodFactory.html#opt">InterpreterMethodFactory#opt</a> with 
+the <a href="global.html#interpreterMethodName">interpreterMethodName</a> of its only <a href="global.html#part">part</a> and an 
+<a href="external-ThisBinding.html#optFallbackReplacement">external:ThisBinding#optFallbackReplacement</a>.
+</p><p>
+Among the different types of interpreter methods, this is the equivalent 
+of the <tt>?</tt> quantifier in regular expressions, with the addition of 
+having a defined behaviour if there is no <a href="global.html#part">part</a>.
+The result of an interpreter method of this type is either the result of 
+the part, if it could be parsed, or the result of its fallback 
+replacement, if it couldn't be parsed, or <tt>undefined</tt>, if it 
+couldn't be parsed and it has no fallback replacement. 
+Inside the body of the interpretation, <tt>this</tt> will be bound to the 
+object of the interpreter method.
+</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The text optionally parsed by the <a href="global.html#part">part</a>.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>printDebuggingMessages</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">See 
+<a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a>.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_InterpreterMethodFactory.js.html">src/InterpreterMethodFactory.js</a>, <a href="src_InterpreterMethodFactory.js.html#line1579">line 1579</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="global.html#optUnitTests">optUnitTests</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The result of its interpretation, 
+if it has one, otherwise an array with the results of repeatedly letting 
+its <a href="global.html#part">part</a> parse the text.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">InterpretationMethodResult</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="orTypeInterpreterMethod"><span class="type-signature"></span>orTypeInterpreterMethod<span class="signature">(text, printDebuggingMessages<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#InterpreterMethodResult">InterpreterMethodResult</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    An or type interpreter method is a type of 
+<a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a> on a user created 
+<a href="external-InterpreterObject.html">external:InterpreterObject</a> constructed by providing the 
+<a href="global.html#interpreterMethodName">interpreterMethodName</a>s of its <a href="global.html#part">part</a>s to 
+<a href="InterpreterMethodFactory.html#or">InterpreterMethodFactory#or</a>. 
+The behaviour of an or type interpreter method resembles the || operator. 
+It tries to parse its parts, one at a time, until one of them parses 
+successfully, and returns the result of that part.
+Just like || it doesn't try to parse any more parts if one has succeeded, 
+and only the interpretations of the succeeding part will be run. 
+If all of its parts fails to parse, then the whole interpreter method 
+fails to parse.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The text that the <a href="global.html#part">part</a>s should try to 
+parse.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>printDebuggingMessages</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">See 
+<a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a>.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_InterpreterMethodFactory.js.html">src/InterpreterMethodFactory.js</a>, <a href="src_InterpreterMethodFactory.js.html#line1077">line 1077</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="global.html#orUnitTests">orUnitTests</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The result of the <a href="global.html#part">part</a> that 
+parsed successfully.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#InterpreterMethodResult">InterpreterMethodResult</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="plusTypeInterpreterMethod"><span class="type-signature"></span>plusTypeInterpreterMethod<span class="signature">(text, printDebuggingMessages<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {InterpretationMethodResult}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>
+A plus type interpreter method is a type of 
+<a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a> meant to be put on a 
+<a href="external-InterpreterObject.html">external:InterpreterObject</a> created by the user. 
+It is the result of calling <a href="InterpreterMethodFactory.html#plus">InterpreterMethodFactory#plus</a> with 
+the <a href="global.html#interpreterMethodName">interpreterMethodName</a> of its only <a href="global.html#part">part</a> and optionally 
+a regular expression that will act as a delimiter.
+</p><p>
+Among the different types of interpreter methods, this is the equivalent 
+of the + quantifier in regular expressions. 
+It lets its <a href="global.html#part">part</a> parse the text over and over until it can't parse 
+anymore, optionally skipping over a delimiter regular expression in 
+between the parsings. 
+Just like the regex +, it needs to parse its part at least once to 
+be successfully parsed.
+</p><p>
+The result of an interpreter method of this type is an array with the 
+results of the repeated parsings of its <a href="global.html#part">part</a>, if it wasn't defined 
+with a <a href="external-ThisBinding.html#plusInterpretation">external:ThisBinding#plusInterpretation</a>.
+If it was, the result will be the result of calling its interpretation 
+as if it was a method of the same object with the abovementioned array as 
+the only argument. 
+Inside the body of the interpretation, <tt>this</tt> will be bound to the 
+object of the interpreter method.
+</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The text that the <a href="global.html#part">part</a> should parse, as 
+many times as it can, but at least one time.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>printDebuggingMessages</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">See 
+<a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a>.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_InterpreterMethodFactory.js.html">src/InterpreterMethodFactory.js</a>, <a href="src_InterpreterMethodFactory.js.html#line1449">line 1449</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="global.html#plusUnitTests">plusUnitTests</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The result of its interpretation, 
+if it has one, otherwise an array with the results of repeatedly letting 
+its <a href="global.html#part">part</a> parse the text.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">InterpretationMethodResult</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="starTypeInterpreterMethod"><span class="type-signature"></span>starTypeInterpreterMethod<span class="signature">(text, printDebuggingMessages<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {InterpretationMethodResult}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>
+A star type interpreter method is a type of 
+<a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a> meant to be put on a 
+<a href="external-InterpreterObject.html">external:InterpreterObject</a> created by the user. 
+It is the result of calling <a href="InterpreterMethodFactory.html#star">InterpreterMethodFactory#star</a> with 
+the <a href="global.html#interpreterMethodName">interpreterMethodName</a> of its only <a href="global.html#part">part</a> and optionally 
+a regular expression that will act as a delimiter.
+</p><p>
+Among the different types of interpreter methods, this is the equivalent 
+of the * quantifier in regular expressions. 
+It lets its <a href="global.html#part">part</a> parse the text over and over until it can't parse 
+anymore, optionally skipping over a delimiter regular expression in 
+between the parsings. 
+Just like the regex *, it may successfully parse nothing.
+</p><p>
+The result of an interpreter method of this type is an, possibly zero 
+length, array with the results of the repeated parsings of its 
+<a href="global.html#part">part</a>, if it wasn't defined with a 
+<a href="external-ThisBinding.html#starInterpretation">external:ThisBinding#starInterpretation</a>.
+If it was, the result will be the result of calling its interpretation 
+as if it was a method of the same object with the abovementioned array as 
+the only argument. 
+Inside the body of the interpretation, <tt>this</tt> will be bound to the 
+object of the interpreter method.
+</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The text that the <a href="global.html#part">part</a> should parse, as 
+many times as it can, or zero times if it can't.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>printDebuggingMessages</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">See 
+<a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a>.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_InterpreterMethodFactory.js.html">src/InterpreterMethodFactory.js</a>, <a href="src_InterpreterMethodFactory.js.html#line1292">line 1292</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="global.html#starUnitTests">starUnitTests</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The result of its interpretation, 
+if it has one, otherwise an (possibly zero length) array with the results 
+of repeatedly letting its <a href="global.html#part">part</a> parse the text.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">InterpretationMethodResult</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="wrapTypeInterpreterMethod"><span class="type-signature"></span>wrapTypeInterpreterMethod<span class="signature">(text, printDebuggingMessages<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#InterpreterMethodResult">InterpreterMethodResult</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>
+A wrap type interpreter method is a type of 
+<a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a> 
+that parses another interpreter function, possibly surrounded by padding 
+text that can be parsed by optional leading and trailing regular 
+expressions defined in its factory <a href="InterpreterMethodFactory.html#wrap">InterpreterMethodFactory#wrap</a>. 
+If any of these fails to parse, then the whole interpreter method fails to 
+parse and the text pointer is restored to where it was when the method 
+started to parse. 
+Also, no interpretations of its descendant <a href="global.html#part">part</a>s are run until 
+the the whole interpreter method is successfully parsed.
+</p><p> 
+If the interpreter method was made with an 
+<a href="external-ThisBinding.html#wrapInterpretation">external:ThisBinding#wrapInterpretation</a>, it will call that with 
+the result of its <a href="global.html#part">part</a>, and return the result. The interpretation 
+will be called with <tt>this</tt> bound to the object of the interpreter 
+method. 
+Otherwise it will return the result of its part, untouched.
+</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The text to be parsed by the <a href="global.html#part">part</a>, possibly 
+surrounded by text that is to be parsed by the optional leading and 
+trailing regular expressions.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>printDebuggingMessages</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">See 
+<a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a>.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_InterpreterMethodFactory.js.html">src/InterpreterMethodFactory.js</a>, <a href="src_InterpreterMethodFactory.js.html#line991">line 991</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="global.html#wrapUnitTests">wrapUnitTests</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    An 
+<a href="InterpreterMethodFactory_MultiPropertyObject.html">InterpreterMethodFactory#MultiPropertyObject</a>-like object 
+or the result of calling the interpretation with the result of its
+<a href="global.html#part">part</a>s.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#InterpreterMethodResult">InterpreterMethodResult</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Externals</h3><ul><li><a href="external-InterpreterObject.html">InterpreterObject</a></li><li><a href="external-ThisBinding.html">ThisBinding</a></li></ul><h3>Classes</h3><ul><li><a href="InterpreterMethodFactory.html">InterpreterMethodFactory</a></li><li><a href="InterpreterMethodFactory_MultiPropertyObject.html">MultiPropertyObject</a></li><li><a href="UsageExampleJavaScriptInterpreter.html">UsageExampleJavaScriptInterpreter</a></li></ul><h3>Global</h3><ul><li><a href="global.html#atomUnitTests">atomUnitTests</a></li><li><a href="global.html#butNotUnitTests">butNotUnitTests</a></li><li><a href="global.html#emptyUnitTests">emptyUnitTests</a></li><li><a href="global.html#groupUnitTests">groupUnitTests</a></li><li><a href="global.html#insignificantUnitTests">insignificantUnitTests</a></li><li><a href="global.html#longestUnitTests">longestUnitTests</a></li><li><a href="global.html#methodFactoryUnitTests">methodFactoryUnitTests</a></li><li><a href="global.html#optUnitTests">optUnitTests</a></li><li><a href="global.html#orUnitTests">orUnitTests</a></li><li><a href="global.html#plusUnitTests">plusUnitTests</a></li><li><a href="global.html#selectUnitTests">selectUnitTests</a></li><li><a href="global.html#starUnitTests">starUnitTests</a></li><li><a href="global.html#wrapUnitTests">wrapUnitTests</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Oct 10 2017 14:57:11 GMT+0200 (CEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

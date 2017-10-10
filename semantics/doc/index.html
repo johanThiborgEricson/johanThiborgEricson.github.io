@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><p>The <a href="InterpreterMethodFactory.html">InterpreterMethodFactory</a> is the only public class of the Semantics! library. As the name suggests, it produces <a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a>s meant to be put on an object or class created by the user. That object is referenced in this documentation as an <a href="external-InterpreterObject.html">external:InterpreterObject</a>. </p>
+<p>Interpreter methods of an interpreter object are built in terms of each other. This is accomplished by defining an interpreter method by giving the <a href="global.html#interpreterMethodName">interpreterMethodName</a>s of the other interpreter methods it should consist of, its {@part}s. It can be thought of as a tree where the root interpreter method is made out of child interpreter methods, which are in turn made out of other interpreter methods, and so on, all the way down to the leafs, which are interpreter methods that parses text using a regular expression, <a href="external-InterpreterObject.html#atomTypeInterpreterMethod">external:InterpreterObject#atomTypeInterpreterMethod</a>s. This is true, except it isn't a tree, it is a graph, because it allows for circular dependencies. Together, the interpreter metods form a language, that can interpret texts on that language. Most interpreter methods have two variants. The first variant is the data structure variant. It returns the results of its children in an array, or as properties on an object. If all interpreter methods on the interpreter object are the data structure type, then the interpreter will return the parse tree as a data structure, with strings at its leafs. The second variant is the interpretation variant. An interpretation variant is constructed with a callback method, its interpretation, that will be called with the results of the methods children. An interpretation variant interpreter method returns the result of its interpretation. It is perfectly fine to use both variants of interpreter methods in the same interpreter, as convenient. See also <a href="external-InterpreterObject.html#interpreterMethod">external:InterpreterObject#interpreterMethod</a>. </p>
+<p>Interpretations are meant to be thought of as a kind of methods of the interpreter object, but with added ability to parse text and be built in terms of each other. More specifically, they are run with <code>this</code> bound to the interpreter object. This means that inside the body of an interpretation callback function, <code>this</code> always referes to the object that the interpreter method is put on. There is one exception to this rule, see <a href="InterpreterMethodFactory.html#methodFactory">InterpreterMethodFactory#methodFactory</a>. </p>
+<p>This documentation is divided into three sections, one for the factory, one for interpretations and one for the produced methods. <a href="InterpreterMethodFactory.html">InterpreterMethodFactory</a> contains the factory that produces interpeter methods meant to be placed on an object created by the user. <a href="external-ThisBinding.html">external:ThisBinding</a> describes the optional callback functions that will act like an exotic kind of methods of the object of their interpreter method. <a href="external-InterpreterObject.html">external:InterpreterObject</a> describes the different types of interpreter methods. Most of the information is redundant between the three sections, so it should suffice just to read in one place. </p></p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Externals</h3><ul><li><a href="external-InterpreterObject.html">InterpreterObject</a></li><li><a href="external-ThisBinding.html">ThisBinding</a></li></ul><h3>Classes</h3><ul><li><a href="InterpreterMethodFactory.html">InterpreterMethodFactory</a></li><li><a href="InterpreterMethodFactory_MultiPropertyObject.html">MultiPropertyObject</a></li><li><a href="UsageExampleJavaScriptInterpreter.html">UsageExampleJavaScriptInterpreter</a></li></ul><h3>Global</h3><ul><li><a href="global.html#atomUnitTests">atomUnitTests</a></li><li><a href="global.html#butNotUnitTests">butNotUnitTests</a></li><li><a href="global.html#emptyUnitTests">emptyUnitTests</a></li><li><a href="global.html#groupUnitTests">groupUnitTests</a></li><li><a href="global.html#insignificantUnitTests">insignificantUnitTests</a></li><li><a href="global.html#longestUnitTests">longestUnitTests</a></li><li><a href="global.html#methodFactoryUnitTests">methodFactoryUnitTests</a></li><li><a href="global.html#optUnitTests">optUnitTests</a></li><li><a href="global.html#orUnitTests">orUnitTests</a></li><li><a href="global.html#plusUnitTests">plusUnitTests</a></li><li><a href="global.html#selectUnitTests">selectUnitTests</a></li><li><a href="global.html#starUnitTests">starUnitTests</a></li><li><a href="global.html#wrapUnitTests">wrapUnitTests</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Oct 10 2017 14:57:11 GMT+0200 (CEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

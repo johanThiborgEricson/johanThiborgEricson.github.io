@@ -1,0 +1,91 @@
+Error messages for bad arguments.
+Move CodePointer method tests to specInterpreterCodePointer.js, except parse
+
+token.toString() -> token.toString().replace(/^\/\^?/, "/^")
+  
+Make better error message for InterpreterMethodFactory.prototype
+  .makeMethod(function(){return null;});
+  current is Expected /^undefined/ to match '[object Object]'.
+  No, this ocurres when a nonterminal fails before codePointer.parse has been
+  called. Testable by writing a new interpreter method factory method that 
+  fails, but I think this is a failure of Semantics! itself, not a bug in 
+  the input to the interpreter. Maybe should be reported as an extention 
+  failure?
+Move the static methods of InterpreterMethodFactory into a closure
+Write test case for debugging when the top symbol has a copied twin method.
+Add ^ to match debugging message to emphazise that it is a head match.
+Allow another this-binding than the interpreter itself.
+Add exeptions to InterpreterMethodFactory.callInterpreterMethod
+Move makeMethod from the prototype/this so that the factory methods can be 
+  called as functions, e g apply
+Make a method accept many strings, concatenate them.
+The nonterminal padding behaves like group, but it returns the result of the 
+  first named non regex method instead of an object. Optional index returns 
+  the result of a later method instead.
+Deferred methods should accept parameters, which will be supplied as 
+  additional arguments to the interpretation.
+baaa => bas in head recursion tests.
+Remove repetition in error message of 
+  i.a = atom(/a/);
+  i.aa = or("a", "a");
+  i.aa("b");
+What is the error message of empty().call("a")?
+Move group object results test to multiPropertyObject.
+or(opt(group(/a/, /b/)), /ac/)))("ac")
+Is makeMethod a mixin?
+What is the error message if a nonterminal fails without having tried to parse 
+  anything?
+Todo: make instructions remember their ends so we dont need heads. Then 
+  restoration of the codepointer can be made in one place, post instruction 
+  maker, which will reduce risks for errors, just like failed parsings are 
+  restored.
+Opt, isPrimitive = defaultValue === null || 
+  ["undefined", "boolean", "number", "string"]
+  .indexOf(typeof defaultValue) > -1;
+  return isPrimitive?defaultValue:defaultValue();
+Star will return the delimiters if they are mehod names, not regexes.
+Fix interaction between insignificant and caching.
+  or(insignificant(/i/, group("a")), "a")("a") == "a";
+Only parse last insignificant if it has been parsed before 
+  insignificant(/i/, insignificant(/j/, "a"))("jaj") => "a"
+No. Parse both insignificant 
+    insignificant(/i/, insignificant(/j/, "a"))("ijaji") => "a"
+Use named functions more and give them distinct names to simplify debugging.
+Move error tests from codePointer to error.
+Allow nonterminals to reference normal methods, to replace the empty feature.
+Unlimited quantifiers should throw if no progress, (or if their part isn't an 
+  interpreter method).
+Is f.group(); a valid command?
+Shouldn't interpretation and instruction be the same thing for terminals?
+  No. Each time a terminal is parsed it creates an instrunction that depends
+  on the interpretation, but it also depends on what has been parsed.
+Caheing should not be saved between parsings. Could be other text, and could be 
+  side effects if the cached value is an object.
+Error message should be Expected 'e' instead saw 'a'.
+When a method uses parse insignificant and token, is there a simple way to test 
+  write a test that ensures that it is called with the interpreter as the third 
+  argument?
+Delimiter and part in the quantifiers should e select or wrap.
+Error message gets double hats with parsing regexes.
+Check if methods using skip regex calls with interpreter as third argument.
+Retreiving cached results should report the code they have skiped.
+Longest fails if the longest has length 0.
+remove : parse start from debugging message
+Debugging should report that a parsed base case isn't parsed in favor of a 
+  longer head recursion. Part of has progressed?
+Head recursion should use position.stack, not codePointer.stack.
+Move recursively defined to position. It is safer if each position discovers
+  its reursive definitions, so that old discorvered 
+Make parse error descriptions report atempts to parse a newline/parse at a 
+  newline.
+But not should report parse failure (including the but not array?) Just the 
+  rejecting element? regex and rejecting element inside parantheses?
+Use head recursive case when testing if debugging is silent when turned off.
+  Should include forgeting.
+But not should be a nonterminal.
+Move character escape sequence closer to unescape.
+Remove object expression, it isn't used.
+Blocks should be statements.
+return ["normal", undefined] => return ["normal"]
+qualifier => propertyAccessor
+map run as method that => interpreter.

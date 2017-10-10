@@ -1,0 +1,121 @@
+call registers callQualifier as recursive
+callQualifier registers callQualifier2 as recursive
+callQualifier2 caches a parse fail
+call removes callQualifier from heads
+A new callQualifier state is created, with nothing registered as recursive
+callQualifier doesn't remove the cache of callQualifier2 since it isn't marked
+  as a recursive definition in the new version of
+
+call
+  call1
+    call
+0.heads.call.isHeadRecursive=true
+0.stack=[call, call1, call]
+0.heads.call.recursivelyDefined=[call1]
+0.heads={call:null}
+    call fail
+0.heads={call:null, call1:null}
+  call1 fail
+  call2
+    callQualifier
+      callQualifier1
+        call
+0.heads.call.isHeadRecursive=true
+0.stack=[call, call2, callQualifier, callQualifier1, call]
+0.heads.call.recursivelyDefined=[call1, call2, callQualifier, callQualifier1]
+        call fail
+0.heads={call:null, call1:null, callQualifier1:null}
+      callQualifier1 fail
+      callQualifier2
+        callQualifier
+0.heads.callQualifier.isHeadRecursive=true
+0.stack={call, call2, callQualifier, callQualifier2, callQualifier}
+0.heads.callQualifier.recursivelyDefined=[callQualifier2]
+        callQualifier fail
+0.heads={call:null, call1:null, callQualifier1:null, callQualifier2:null}
+      callQualifier2 fail
+0.heads={call:null, call1:null, callQualifier1:null, callQualifier2:null}
+    callQualifier fail
+0.heads.callQualifier.recursive&&0.heads.callQualifier.cache is falsy
+no recursion
+0.heads={call:null, call1:null, callQualifier1:null, callQualifier:null}
+0.heads={call:null, call1:null, callQualifier1:null, callQualifier:null, 
+call2:null}
+  call2 fail
+  new
+position=3
+0.heads={call:null, call1:null, callQualifier1:null, callQualifier:null, 
+call2:null, new:{cache:new, end:3}}
+  new success
+0.heads={call:{cache:new, end:3}, call1:null, callQualifier1:null, 
+callQualifier:null, call2:null, new:{cache:new, end:3}}
+
+
+
+0.heads.call.recursive===true && 0.heads.call.cache
+head recursing on call
+0.heads={call:{cache:new, end:3}, call1:null, callQualifier1:null, 
+callQualifier:null, call2:null, new:{cache: new, end:3}}
+0.heads.call.recursivelyDefined.map(remove from 0.heads)
+0.heads={call:{cache:new, end:3}, new:{cache:new, end:3}}
+  call1
+    call
+0.heads.call.isHeadRecursive=true
+0.stack = [call, call1, call]
+0.heads.call.recursivelyDefined=[call1, call2, callQualifier, callQualifier1]
+position=3
+    call success
+    args
+3.heads={args:null}
+    args fail
+0.heads={call:{cache:new, end:3}, new:{cache:new, end:3}, call1:null}
+  call1 fail
+position=0
+  call2
+    callQualifier
+0.heads.callQualifier.recursivelyDefined.map(remove from 0.heads)
+      callQualifier1
+        call
+0.heads.call.recursive=true
+0.stack=[call, call2, callQualifier, callQualifier1, call]
+0.heads.call.recursivelyDefined=[call1, call2, callQualifier, callQualifier1]
+position=3
+        call success
+        qualifier
+          qualifier1
+3.heads={args:null, qualifier1:null}
+          qualifier1 fail
+          qualifier2
+position=5
+3.heads={args:null, qualifier1:null, qualifier2:{cache=.q, end=5}}
+          qualifier2 success
+3.heads={args:null, qualifier1:null, qualifier2:{cache=.q, end=5}, 
+qualifier:{cache=.q, end=5}}
+        qualifier success
+0.heads={call:{cache:new, end:3}, new:{cache:new, end:3}, call1:null, 
+callQualifier1:{cache:new.q, end:5}}
+      callQualifier1 success
+position=0
+      callQualifier2
+        callQualifier
+0.heads.callQualifier.recursive=true
+0.stack=[call, call2, callQualfier, callQualifier2, callQualifier]
+0.heads.callQualifier.recursivelyDefined=[callQualifier2]
+0.heads={call:{cache:new, end:3}, new:{cache:new, end:3}, call1:null, 
+callQualifier1:{cache:new.q, end:5}, callQualifier:null}
+        callQualifier fail
+0.heads={call:{cache:new, end:3}, new:{cache:new, end:3}, call1:null, 
+callQualifier1:{cache:new.q, end:5}, callQualifier:null, callQualifier2:null}
+      callQualifier2 fail
+0.heads={call:{cache:new, end:3}, new:{cache:new, end:3}, call1:null, 
+callQualifier1:{cache:new.q, end:5}, callQualifier:null, callQualifier2:null}
+0.heads.callQualifier.recursive&&0.heads.callQualifier.cache is true
+head recursing
+
+
+0.heads={call:{cache:new, end:3}, new:{cache:new, end:3}, call1:null, 
+callQualifier1:{cache:new.q, end:5}, callQualifier:null, callQualifier2:null}
+0.heads.callQualifier.recursivelyDefined.map(remove from 0.heads)
+0.heads={call:{cache:new, end:3}, new:{cache:new, end:3}, call1:null, 
+callQualifier1:{cache:new.q, end:5}, callQualifier:null}
+

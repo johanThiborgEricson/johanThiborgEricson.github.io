@@ -1,0 +1,8166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: UsageExampleJavaScriptInterpreter</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: UsageExampleJavaScriptInterpreter</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>UsageExampleJavaScriptInterpreter<span class="signature">()</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description"><p>
+This class is a real world example of how an 
+<a href="InterpreterMethodFactory.html">InterpreterMethodFactory</a> can be used to make a fully functional 
+interpreter. 
+It is an interpreter for a subset of the JavaScript language, just large 
+enough to interpret the source code of InterpreterMethodFactory.js. 
+</p><p>
+It is a fully functional interpreter. 
+It is possible to run all unit tests of Semantics! on this interpretation, 
+and all the tests for this <a href="UsageExampleJavaScriptInterpreter.html">UsageExampleJavaScriptInterpreter</a> 
+can be run on this class being constructed with that interpretation. 
+</p></div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+    <h2>Constructor</h2>
+    
+
+    
+    <h4 class="name" id="UsageExampleJavaScriptInterpreter"><span class="type-signature"></span>new UsageExampleJavaScriptInterpreter<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Returns a newly constructed JavaScript interpreter.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line18">line 18</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="additiveExpression"><span class="type-signature"></span>additiveExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("additiveExpression1", 
+"additiveExpression2", "multiplicativeExpression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line620">line 620</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="additiveExpression1"><span class="type-signature"></span>additiveExpression1<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("additiveExpression", 
+/\+/, "multiplicativeExpression", function(ae, me) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line627">line 627</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="additiveExpression2"><span class="type-signature"></span>additiveExpression2<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("additiveExpression", 
+/-/, "multiplicativeExpression", function(ae, me) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line634">line 634</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="anonymousFunctionExpression"><span class="type-signature"></span>anonymousFunctionExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#wrap">wrap</a> (/function/, 
+"functionExpressionContent")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line1091">line 1091</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="args"><span class="type-signature"></span>args<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#wrap">wrap</a> (/\(/, "argumentList", 
+
+/\)/)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line484">line 484</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="argumentList"><span class="type-signature"></span>argumentList<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#star">star</a> ("assignmentExpression", 
+/,/)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line491">line 491</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="argumentsOpt"><span class="type-signature"></span>argumentsOpt<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt>opt("args", function(){...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line388">line 388</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="arrayLiteral"><span class="type-signature"></span>arrayLiteral<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#wrap">wrap</a> (/\[/, "elementList", 
+/\]/)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line301">line 301</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="assignmentExpression"><span class="type-signature"></span>assignmentExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("assignmentExpression1", 
+"assignmentExpression5", "conditionalExpression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line773">line 773</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="assignmentExpression1"><span class="type-signature"></span>assignmentExpression1<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("leftHandSideExpression", 
+/=/, "assignmentExpression", function(lhse, assignmentExpression) 
+{...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line782">line 782</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="assignmentExpression5"><span class="type-signature"></span>assignmentExpression5<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("leftHandSideExpression", 
+/\+=/, "assignmentExpression", function(lhse, assignmentExpression) 
+{...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line791">line 791</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="bindingIdentifier"><span class="type-signature"></span>bindingIdentifier<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#atom">atom</a> (identifierName, 
+reservedWord)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line262">line 262</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="block"><span class="type-signature"></span>block<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#wrap">wrap</a> (/\{/, "statementList", 
+/\}/)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line825">line 825</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="booleanLiteral"><span class="type-signature"></span>booleanLiteral<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("trueLiteral", 
+"falseLiteral")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line102">line 102</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="callExpression"><span class="type-signature"></span>callExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("callExpression1", 
+"callExpression2", "newExpression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line397">line 397</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="callExpression1"><span class="type-signature"></span>callExpression1<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("callExpression", 
+"args", function(callExpression, args) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line405">line 405</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="callExpression2"><span class="type-signature"></span>callExpression2<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> 
+("callExpressionQualifier", "args", function(callExpressionQualifier, 
+args) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line416">line 416</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="callExpressionQualifier"><span class="type-signature"></span>callExpressionQualifier<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#longest">longest</a>
+("callExpressionQualifier1", "callExpressionQualifier2")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line427">line 427</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="callExpressionQualifier1"><span class="type-signature"></span>callExpressionQualifier1<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("callExpression", 
+"qualifier", function(callExpression, qualifier) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line435">line 435</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="callExpressionQualifier2"><span class="type-signature"></span>callExpressionQualifier2<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> 
+("callExpressionQualifier", "qualifier", function(callExpressionQualifier, 
+qualifier) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line449">line 449</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="conditionalExpression"><span class="type-signature"></span>conditionalExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("conditionalExpression1", 
+"logicalOrExpression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line744">line 744</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="conditionalExpression1"><span class="type-signature"></span>conditionalExpression1<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("logicalOrExpression", 
+/\?/, "deferredAssignmentExpression", 
+/:/, "deferredAssignmentExpression", function(logicalOrExpression, 
+deferredAssignmentExpression1, deferredAssignmentExpression2) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line752">line 752</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="deferredAssignmentExpression"><span class="type-signature"></span>deferredAssignmentExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#methodFactory">methodFactory</a>
+("assignmentExpression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line766">line 766</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="deferredElseStatementOpt"><span class="type-signature"></span>deferredElseStatementOpt<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#methodFactory">methodFactory</a>
+("elseStatementOpt")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line1015">line 1015</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="deferredEqualityExpression"><span class="type-signature"></span>deferredEqualityExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#methodFactory">methodFactory</a>
+("equalityExpression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line712">line 712</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="deferredExpression"><span class="type-signature"></span>deferredExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#methodFactory">methodFactory</a>
+("expression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line940">line 940</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="deferredLogicalAndExpression"><span class="type-signature"></span>deferredLogicalAndExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#methodFactory">methodFactory</a>
+("logicalAndExpression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line737">line 737</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="deferredSourceElements"><span class="type-signature"></span>deferredSourceElements<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#methodFactory">methodFactory</a>
+("sourceElements")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line1188">line 1188</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="deferredStatement"><span class="type-signature"></span>deferredStatement<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#methodFactory">methodFactory</a>
+("statement")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line865">line 865</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="deferredStatementList"><span class="type-signature"></span>deferredStatementList<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#methodFactory">methodFactory</a>
+("statementList")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line848">line 848</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="deferredStatementOrBlock"><span class="type-signature"></span>deferredStatementOrBlock<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#methodFactory">methodFactory</a>
+("statementOrBlock")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line818">line 818</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="doubleStringCharacters"><span class="type-signature"></span>doubleStringCharacters<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#atom">atom</a>
+(/([^"\\]|(\\.))*</tt><tt>/)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line170">line 170</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="elementList"><span class="type-signature"></span>elementList<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#star">star</a> ("assignmentExpression", 
+/,/)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line308">line 308</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="elseStatement"><span class="type-signature"></span>elseStatement<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#wrap">wrap</a> (/else/, 
+"statementOrBlock")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line1031">line 1031</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="elseStatementOpt"><span class="type-signature"></span>elseStatementOpt<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt>opt("elseStatement", function() {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line1021">line 1021</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="equalityExpression"><span class="type-signature"></span>equalityExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("equalityExpression3", 
+"equalityExpression4", "relationalExpression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line672">line 672</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="equalityExpression3"><span class="type-signature"></span>equalityExpression3<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("equalityExpression", 
+/===/, "relationalExpression", function(ee, re) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line679">line 679</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="equalityExpression4"><span class="type-signature"></span>equalityExpression4<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("equalityExpression", 
+/!==/, "relationalExpression", function(ee, re) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line686">line 686</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="expression"><span class="type-signature"></span>expression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt>plus("assignmentExpression", /,/, function(assignmentsExpressions) 
+{...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line800">line 800</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="expressionStatement"><span class="type-signature"></span>expressionStatement<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("expression", /;/, 
+function() {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line914">line 914</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="falseLiteral"><span class="type-signature"></span>falseLiteral<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#atom">atom</a> (/false/, function() 
+{...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line116">line 116</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="formalParameterList"><span class="type-signature"></span>formalParameterList<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#star">star</a> ("bindingIdentifier", 
+/,/)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line1127">line 1127</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="functionBody"><span class="type-signature"></span>functionBody<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt>select(2, "useStrictDeclarationOpt", "deferredSourceElements")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line1133">line 1133</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="functionDeclaration"><span class="type-signature"></span>functionDeclaration<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#wrap">wrap</a>
+("namedFunctionExpression", function() {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line1060">line 1060</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="functionExpression"><span class="type-signature"></span>functionExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("anonymousFunctionExpression", 
+"namedFunctionExpression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line1069">line 1069</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="functionExpressionContent"><span class="type-signature"></span>functionExpressionContent<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> (/\(/, 
+"formalParameterList", /\)/, /\{/, "functionBody", /\}/, 
+function(formalParameterList, functionBody) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line1099">line 1099</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="identifierExpression"><span class="type-signature"></span>identifierExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#wrap">wrap</a> ("identifierReference", 
+function(identifierReference) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line245">line 245</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="identifierName"><span class="type-signature"></span>identifierName<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#atom">atom</a> (identifierName)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line71">line 71</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="identifierReference"><span class="type-signature"></span>identifierReference<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#wrap">wrap</a> ("bindingIdentifier", 
+function(bindingIdentifier) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line223">line 223</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="ifStatement"><span class="type-signature"></span>ifStatement<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> (/if/, /\(/, "expression", 
+/\)/, "deferredStatementOrBlock", 
+"deferredElseStatementOpt", function(expression, deferredStatementOrBlock, 
+deferredElseStatementOpt) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line925">line 925</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="initialiser"><span class="type-signature"></span>initialiser<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#wrap">wrap</a> (/=/, 
+"assignmentExpression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line899">line 899</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="initialiserOpt"><span class="type-signature"></span>initialiserOpt<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt>opt("initialiser", function() {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line905">line 905</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="iterationStatement"><span class="type-signature"></span>iterationStatement<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("iterationStatement2", 
+"iterationStatement4", "iterationStatement6")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line947">line 947</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="iterationStatement2"><span class="type-signature"></span>iterationStatement2<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> (/while/, /\(/, 
+"deferredExpression", /\)/, "deferredStatementOrBlock", 
+function(deferredExpression, deferredStatementOrBlock) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line956">line 956</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="iterationStatement4"><span class="type-signature"></span>iterationStatement4<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> (/for/, /\(/, /var/, 
+"variableDeclarationList", /;/, "deferredExpression", /;/, 
+"deferredExpression", /\)/, "deferredStatementOrBlock", 
+function(variableDeclarationList, deferredExpression1, deferredExpression2, 
+deferredStatementOrBlock) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line976">line 976</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="iterationStatement6"><span class="type-signature"></span>iterationStatement6<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> (/for/, /\(/, /var/, 
+"variableDeclaration", /in/, "expression", 
+/\)/, "deferredStatementOrBlock", function(variableDeclaration, 
+expression, deferredStatementOrBlock) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line997">line 997</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="leftHandSideExpression"><span class="type-signature"></span>leftHandSideExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("leftHandSideExpression1", 
+"leftHandSideExpression2", 
+"identifierReference")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line499">line 499</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="leftHandSideExpression1"><span class="type-signature"></span>leftHandSideExpression1<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("leftHandSideExpression", 
+"qualifier", function(leftHandSideExpression, qualifier) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line507">line 507</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="leftHandSideExpression2"><span class="type-signature"></span>leftHandSideExpression2<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("callExpression", 
+"qualifier", function(leftHandSideExpressionBase, qualifier) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line520">line 520</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="lineTerminator"><span class="type-signature"></span>lineTerminator<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#atom">atom</a> (/\n/)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line52">line 52</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="literal"><span class="type-signature"></span>literal<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("undefinedLiteral", 
+"nullLiteral", "booleanLiteral", "numericLiteral", "stringLiteral", 
+"regularExpressionLiteral")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line79">line 79</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="logicalAndExpression"><span class="type-signature"></span>logicalAndExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("logicalAndExpression1", 
+"equalityExpression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line694">line 694</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="logicalAndExpression1"><span class="type-signature"></span>logicalAndExpression1<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("logicalAndExpression", 
+/&&/, "deferredEqualityExpression", function(logicalAndExpression, 
+deferredEqualityExpression) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line701">line 701</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="logicalOrExpression"><span class="type-signature"></span>logicalOrExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("logicalOrExpression1", 
+"logicalAndExpression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line719">line 719</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="logicalOrExpression1"><span class="type-signature"></span>logicalOrExpression1<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("logicalOrExpression", 
+/\|\|/, "deferredLogicalAndExpression", function(logicalOrExpression, 
+deferredLogicalAndExpression) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line726">line 726</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="multiLineComment"><span class="type-signature"></span>multiLineComment<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#atom">atom</a> 
+(/\/\*\/*(\**[^\*\/]+\/*)*\*+\//)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line65">line 65</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="multiplicativeExpression"><span class="type-signature"></span>multiplicativeExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("multiplicativeExpression1", 
+"typeChangeExpression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line604">line 604</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="multiplicativeExpression1"><span class="type-signature"></span>multiplicativeExpression1<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a>
+("multiplicativeExpression", /\*</tt><tt>/, "typeChangeExpression", 
+function(me, tce) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line612">line 612</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="namedFunctionExpression"><span class="type-signature"></span>namedFunctionExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> (/function/, 
+"bindingIdentifier", "functionExpressionContent", 
+function(bindingIdentifier, functionExpressionContent) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line1078">line 1078</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="newExpression"><span class="type-signature"></span>newExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("newExpression1", 
+"primaryExpression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line352">line 352</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="newExpression1"><span class="type-signature"></span>newExpression1<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> (/new/, 
+"newExpressionQualifier", "argumentsOpt", function(newExpressionQualifier, 
+argumentsOpt) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line360">line 360</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="newExpressionQualifier"><span class="type-signature"></span>newExpressionQualifier<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#longest">longest</a> ("newExpression", 
+"newExpressionQualifier1")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line372">line 372</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="newExpressionQualifier1"><span class="type-signature"></span>newExpressionQualifier1<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("newExpressionQualifier", 
+"qualifier", function(newExpressionQualifier, qualifier) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line379">line 379</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="nullLiteral"><span class="type-signature"></span>nullLiteral<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#atom">atom</a> (/null/, function() 
+{...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line95">line 95</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="numericLiteral"><span class="type-signature"></span>numericLiteral<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#atom">atom</a> (/\d+/, 
+function(numericLiteral) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line123">line 123</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="objectExpression"><span class="type-signature"></span>objectExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("identifierExpression", 
+"arrayLiteral", "objectLiteral", 
+"functionExpression", "objectExpression1", "thisExpression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line277">line 277</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="objectExpression1"><span class="type-signature"></span>objectExpression1<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#wrap">wrap</a> (/\(/, "expression", 
+/\)/)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line285">line 285</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="objectLiteral"><span class="type-signature"></span>objectLiteral<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> (/\{/, 
+"propertyNameAndValueList", /,?/, /\}/, function(propertyNameAndValueList) 
+{...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line316">line 316</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="primaryExpression"><span class="type-signature"></span>primaryExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("literal", 
+"objectExpression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line269">line 269</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="program1"><span class="type-signature"></span>program1<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt>insignificant("spaces", "sourceElements")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line1175">line 1175</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="propertyAssignment"><span class="type-signature"></span>propertyAssignment<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("propertyName", /:/, 
+"assignmentExpression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line339">line 339</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="propertyName"><span class="type-signature"></span>propertyName<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("identifierName")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line345">line 345</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="propertyNameAndValueList"><span class="type-signature"></span>propertyNameAndValueList<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#star">star</a> ("propertyAssignment", 
+/,/)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line332">line 332</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="qualifier"><span class="type-signature"></span>qualifier<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("qualifier1", 
+"qualifier2")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line462">line 462</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="qualifier1"><span class="type-signature"></span>qualifier1<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#wrap">wrap</a> (/\[/, "expression", 
+/\]/)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line469">line 469</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="qualifier2"><span class="type-signature"></span>qualifier2<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#wrap">wrap</a> (/\./, 
+"identifierName")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line476">line 476</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="regularExpressionBody"><span class="type-signature"></span>regularExpressionBody<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#atom">atom</a>
+(/([^/\\\[]|(\\.)|(\[([^\]\\]|(\\.))*\]))+/, 
+function(regularExpressionBody) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line211">line 211</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="regularExpressionLiteral"><span class="type-signature"></span>regularExpressionLiteral<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt>insignificant(null, "regularExpressionLiteralSignificantSpaces")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line195">line 195</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="regularExpressionLiteralSignificantSpaces"><span class="type-signature"></span>regularExpressionLiteralSignificantSpaces<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#wrap">wrap</a> (/\//, 
+"regularExpressionBody", /\//)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line203">line 203</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="relationalExpression"><span class="type-signature"></span>relationalExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("relationalExpression1", 
+"relationalExpression2", "relationalExpression5", 
+"additiveExpression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line643">line 643</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="relationalExpression1"><span class="type-signature"></span>relationalExpression1<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("relationalExpression", 
+/</, "additiveExpression", function(re, ae) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line650">line 650</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="relationalExpression2"><span class="type-signature"></span>relationalExpression2<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("relationalExpression", 
+/>/, "additiveExpression", function(re, ae) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line657">line 657</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="relationalExpression5"><span class="type-signature"></span>relationalExpression5<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("relationalExpression", 
+/instanceof/, "additiveExpression", function(re, ae) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line664">line 664</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="returnStatement"><span class="type-signature"></span>returnStatement<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> (/return/, 
+"expression", /;/, function(expression) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line1038">line 1038</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="rightHandSideExpression"><span class="type-signature"></span>rightHandSideExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#wrap">wrap</a>
+("leftHandSideExpression", function(lhse) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line563">line 563</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="singleLineComment"><span class="type-signature"></span>singleLineComment<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#atom">atom</a> (/\/\/.*</tt><tt>/)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line58">line 58</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="singleStringCharacters"><span class="type-signature"></span>singleStringCharacters<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#atom">atom</a>
+(/([^'\\]|(\\.))*</tt><tt>/)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line177">line 177</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="sourceElements"><span class="type-signature"></span>sourceElements<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("statementList")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line1181">line 1181</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="space"><span class="type-signature"></span>space<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("whiteSpace", "lineTerminator", 
+"singleLineComment", "multiLineComment")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line39">line 39</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="spaces"><span class="type-signature"></span>spaces<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#star">star</a> ("space")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line30">line 30</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="statement"><span class="type-signature"></span>statement<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("variableStatement", 
+"ifStatement", "iterationStatement", "returnStatement", "throwStatement", 
+"functionDeclaration", "expressionStatement")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line856">line 856</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="statementList"><span class="type-signature"></span>statementList<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#star">star</a> ("deferredStatement", 
+function(deferredStatements) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line832">line 832</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="statementOrBlock"><span class="type-signature"></span>statementOrBlock<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("statement", "block")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line811">line 811</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="stringLiteral"><span class="type-signature"></span>stringLiteral<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt>insignificant(null, "stringLiteralSignificantSpaces")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line131">line 131</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="stringLiteralSignificantSpaces"><span class="type-signature"></span>stringLiteralSignificantSpaces<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a>
+("stringLiteralSignificantSpaces1", 
+"stringLiteralSignificantSpaces2")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line140">line 140</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="stringLiteralSignificantSpaces1"><span class="type-signature"></span>stringLiteralSignificantSpaces1<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#wrap">wrap</a> (/"/, 
+"doubleStringCharacters", /"/)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line148">line 148</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="stringLiteralSignificantSpaces2"><span class="type-signature"></span>stringLiteralSignificantSpaces2<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#wrap">wrap</a> (/'/, 
+"singleStringCharacters", /'/)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line155">line 155</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="thisExpression"><span class="type-signature"></span>thisExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#atom">atom</a> (/this/, function() 
+{...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line292">line 292</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="throwStatement"><span class="type-signature"></span>throwStatement<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> (/throw/, 
+"expression", /;/, function(expression) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line1048">line 1048</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="trueLiteral"><span class="type-signature"></span>trueLiteral<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#atom">atom</a> (/true/, function() 
+{...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line109">line 109</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="typeChangeExpression"><span class="type-signature"></span>typeChangeExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#or">or</a> ("updateExpression", 
+"typeChangeExpression2", "typeChangeExpression4", 
+"typeChangeExpression6")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line574">line 574</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="typeChangeExpression2"><span class="type-signature"></span>typeChangeExpression2<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> (/typeof/, 
+"typeChangeExpression", function(typeChangeExpression) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line582">line 582</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="typeChangeExpression4"><span class="type-signature"></span>typeChangeExpression4<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> (/-/, 
+"typeChangeExpression", function(typeChangeExpression) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line589">line 589</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="typeChangeExpression6"><span class="type-signature"></span>typeChangeExpression6<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> (/!/, 
+"typeChangeExpression", function(typeChangeExpression) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line596">line 596</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="undefinedLiteral"><span class="type-signature"></span>undefinedLiteral<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#atom">atom</a> (/undefined/, function() 
+{...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line88">line 88</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="updateExpression"><span class="type-signature"></span>updateExpression<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#longest">longest</a> ("updateExpression1", 
+"updateExpression2", "updateExpression3", "callExpression", 
+"rightHandSideExpression")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line534">line 534</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="updateExpression1"><span class="type-signature"></span>updateExpression1<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#wrap">wrap</a> (/delete/, 
+"leftHandSideExpression", function(lhse) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line541">line 541</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="updateExpression2"><span class="type-signature"></span>updateExpression2<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#wrap">wrap</a> ("leftHandSideExpression", 
+/\+\+/, function(lhse) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line548">line 548</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="updateExpression3"><span class="type-signature"></span>updateExpression3<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#wrap">wrap</a> ("leftHandSideExpression", 
+/--/, function(lhse) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line555">line 555</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="useStrictDeclaration"><span class="type-signature"></span>useStrictDeclaration<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a>
+(/('use strict')|("use strict")/, /;/)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line1146">line 1146</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="useStrictDeclarationOpt"><span class="type-signature"></span>useStrictDeclarationOpt<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt>opt("useStrictDeclaration")</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line1140">line 1140</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="variableDeclaration"><span class="type-signature"></span>variableDeclaration<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> ("bindingIdentifier", 
+"initialiserOpt", function(bindingIdentifier, initialiserOpt) {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line888">line 888</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="variableDeclarationList"><span class="type-signature"></span>variableDeclarationList<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt>plus("variableDeclaration", /,/)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line881">line 881</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="variableStatement"><span class="type-signature"></span>variableStatement<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#group">group</a> (/var/, 
+"variableDeclarationList", /;/, function() {...})</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line872">line 872</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="whiteSpace"><span class="type-signature"></span>whiteSpace<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <tt><a href="InterpreterMethodFactory.html#atom">atom</a> (/\s/)</tt>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line46">line 46</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="program"><span class="type-signature"></span>program<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Setting up the environment and calling program1.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="spec_system_src_JavaScriptInterpreter.js.html">spec/system/src/JavaScriptInterpreter.js</a>, <a href="spec_system_src_JavaScriptInterpreter.js.html#line1152">line 1152</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Externals</h3><ul><li><a href="external-InterpreterObject.html">InterpreterObject</a></li><li><a href="external-ThisBinding.html">ThisBinding</a></li></ul><h3>Classes</h3><ul><li><a href="InterpreterMethodFactory.html">InterpreterMethodFactory</a></li><li><a href="InterpreterMethodFactory_MultiPropertyObject.html">MultiPropertyObject</a></li><li><a href="UsageExampleJavaScriptInterpreter.html">UsageExampleJavaScriptInterpreter</a></li></ul><h3>Global</h3><ul><li><a href="global.html#atomUnitTests">atomUnitTests</a></li><li><a href="global.html#butNotUnitTests">butNotUnitTests</a></li><li><a href="global.html#emptyUnitTests">emptyUnitTests</a></li><li><a href="global.html#groupUnitTests">groupUnitTests</a></li><li><a href="global.html#insignificantUnitTests">insignificantUnitTests</a></li><li><a href="global.html#longestUnitTests">longestUnitTests</a></li><li><a href="global.html#methodFactoryUnitTests">methodFactoryUnitTests</a></li><li><a href="global.html#optUnitTests">optUnitTests</a></li><li><a href="global.html#orUnitTests">orUnitTests</a></li><li><a href="global.html#plusUnitTests">plusUnitTests</a></li><li><a href="global.html#selectUnitTests">selectUnitTests</a></li><li><a href="global.html#starUnitTests">starUnitTests</a></li><li><a href="global.html#wrapUnitTests">wrapUnitTests</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Oct 10 2017 14:57:11 GMT+0200 (CEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
