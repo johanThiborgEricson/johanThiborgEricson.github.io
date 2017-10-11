@@ -1,7 +1,25 @@
-The {@link InterpreterMethodFactory} is the only public class of the Semantics! library. As the name suggests, it produces {@link external:InterpreterObject#interpreterMethod}s meant to be put on an object or class created by the user. That object is referenced in this documentation as an {@link external:InterpreterObject}. 
+The Semantics! library is a JavaScript library for making interpreters of structured text. It makes it possible to use simpler regular expressions when parsing text, by providing dynamic versions of groups, quantifiers and disjunctions, i. e. (), ?, *, + and |. This allows for regular expressions with better readability that are easier to debug. It is also possible (and quite easy) to make complex recursive definitions. 
 
-Interpreter methods of an interpreter object are built in terms of each other. This is accomplished by defining an interpreter method by giving the {@link interpreterMethodName}s of the other interpreter methods it should consist of, its {@part}s. It can be thought of as a tree where the root interpreter method is made out of child interpreter methods, which are in turn made out of other interpreter methods, and so on, all the way down to the leafs, which are interpreter methods that parses text using a regular expression, {@link external:InterpreterObject#atomTypeInterpreterMethod}s. This is true, except it isn't a tree, it is a graph, because it allows for circular dependencies. Together, the interpreter metods form a language, that can interpret texts on that language. Most interpreter methods have two variants. The first variant is the data structure variant. It returns the results of its children in an array, or as properties on an object. If all interpreter methods on the interpreter object are the data structure type, then the interpreter will return the parse tree as a data structure, with strings at its leafs. The second variant is the interpretation variant. An interpretation variant is constructed with a callback method, its interpretation, that will be called with the results of the methods children. An interpretation variant interpreter method returns the result of its interpretation. It is perfectly fine to use both variants of interpreter methods in the same interpreter, as convenient. See also {@link external:InterpreterObject#interpreterMethod}. 
+Unlike with regular expressions, interpreters built with Semantics! are capable of parsing from the top level to the smallest part in one definition. It does this by returning a parse tree datastructure with nested arrays and objects.
 
-Interpretations are meant to be thought of as a kind of methods of the interpreter object, but with added ability to parse text and be built in terms of each other. More specifically, they are run with `this` bound to the interpreter object. This means that inside the body of an interpretation callback function, `this` always referes to the object that the interpreter method is put on. There is one exception to this rule, see {@link InterpreterMethodFactory#methodFactory}. 
+Besides from building datastructures, it is possible to accompany each level of the definition with an anonymous function that will describe how the result of that level should be interpreted. It is also possible to delay the evaluation of such interpretations, making it possible to build interpreters. 
 
-This documentation is divided into three sections, one for the factory, one for interpretations and one for the produced methods. {@link InterpreterMethodFactory} contains the factory that produces interpeter methods meant to be placed on an object created by the user. {@link external:ThisBinding} describes the optional callback functions that will act like an exotic kind of methods of the object of their interpreter method. {@link external:InterpreterObject} describes the different types of interpreter methods. Most of the information is redundant between the three sections, so it should suffice just to read in one place. </p>
+<a href="../SpecRunner.html?inception=false">Run test cases</a>. It might be 
+necessary to specify the path to the InterpreterMethodFactory.js file for the 
+first test to run.
+
+<a href="../SpecRunner.html">Run test cases inception style</a>. An interpreter built with Semantics! is used to interpret the source code of Semantics!. Then the test cases are run on that interpretation. Then the interpreter is built with the interpretation and the testcases of the interpreter is run on that. It should take approximately 50 times longer. If you are running the test cases from a local file (the file:// protocol), the test cases cant read the source code automatically, for security reasons, so you have to locate them manually. Otherwise the tests will run on the normal Semantics!.
+
+<h3>Installation</h3>
+
+Download this file: 
+<a href="../src/InterpreterMethodFactory.js">InterpreterMethodFactory.js</a> 
+and put it in your project folder. 
+Include the file in your html:
+<pre>
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;script src="InterpreterMethodFactory.js"&gt;
+  &lt;/head&gt;
+&lt;/html&gt;
+</pre>
