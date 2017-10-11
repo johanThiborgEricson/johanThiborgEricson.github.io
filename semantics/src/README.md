@@ -16,10 +16,10 @@ Download this file:
 <a href="../src/InterpreterMethodFactory.js">InterpreterMethodFactory.js</a> 
 and put it in your project folder. 
 Include the file in your html:
-<pre>
-&lt;html&gt;
-  &lt;head&gt;
-    &lt;script src="InterpreterMethodFactory.js"&gt;
-  &lt;/head&gt;
-&lt;/html&gt;
-</pre>
+
+    &lt;html&gt;
+      &lt;head&gt;
+        &lt;script src="InterpreterMethodFactory.js"&gt;
+      &lt;/head&gt;
+    &lt;/html&gt;
+

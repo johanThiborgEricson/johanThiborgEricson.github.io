@@ -22,3 +22,5 @@ this => <tt>this</tt>
 insignificant example.
 unit tests. remove interpretations if it isn't tested. Data structure variants 
   are clearer.
+atom unit tests interpreter.a = => interpreter = {a:
+method factory unit test o => thisBinding
