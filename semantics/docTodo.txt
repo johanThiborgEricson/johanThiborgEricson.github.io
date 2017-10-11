@@ -20,3 +20,5 @@ examples a: f.atom(/a/) => part: f.atom(/text/)
 undefined => <tt>undefined</tt>
 this => <tt>this</tt>
 insignificant example.
+unit tests. remove interpretations if it isn't tested. Data structure variants 
+  are clearer.
