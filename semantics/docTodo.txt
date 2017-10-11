@@ -4,7 +4,6 @@ group example /(ab)/
 group interpretation elaborate.
 group is Semantics! equivalent of regex groups, putting things 
   between <tt>(</tt> and <tt>)</tt>.
-interpreter method move to makeMethod.
 atom(identifierName) is confusing.
 plus and star aren't interpreter methods. They are factories for producing 
   interpreter methods.
