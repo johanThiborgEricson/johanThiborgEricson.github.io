@@ -4,9 +4,7 @@ Unlike with regular expressions, interpreters built with Semantics! are capable 
 
 Besides from building datastructures, it is possible to accompany each level of the definition with an anonymous function that will describe how the result of that level should be interpreted. It is also possible to delay the evaluation of such interpretations, making it possible to build interpreters. 
 
-<a href="../SpecRunner.html?inception=false">Run test cases</a>. It might be 
-necessary to specify the path to the InterpreterMethodFactory.js file for the 
-first test to run.
+<a href="../SpecRunner.html?inception=false">Run test cases</a>. It might be necessary to specify the path to the InterpreterMethodFactory.js file for the first test to run.
 
 <a href="../SpecRunner.html">Run test cases inception style</a>. An interpreter built with Semantics! is used to interpret the source code of Semantics!. Then the test cases are run on that interpretation. Then the interpreter is built with the interpretation and the testcases of the interpreter is run on that. It should take approximately 50 times longer. If you are running the test cases from a local file (the file:// protocol), the test cases cant read the source code automatically, for security reasons, so you have to locate them manually. Otherwise the tests will run on the normal Semantics!.
 

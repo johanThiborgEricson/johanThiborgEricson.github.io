@@ -1,3 +1,16 @@
+## Installation
+
+Download this file to your project folder:
+http://johanthiborgericson.github.io/semantics/src/InterpreterMethodFactory.js
+
+And reference it in your project:
+    
+    &lt;html&gt;
+      &lt;head&gt;
+        &lt;script src="InterpreterMethodFactory.js"&gt;
+      &lt;/head&gt;
+    &lt;/html&gt;
+    
 ## Semantics!, the foolproof interpreter factory
 
 Semantics! is a foolproof JavaScript library for making parsers or interpreters. Unlike most parsing libraries, you don’t have to learn any library specific syntax to use it. Instead, it uses native JavaScript features to describe the rules of the interpreter/parser. Since there is no syntax, you never have to worry about syntax errors.
@@ -97,7 +110,7 @@ Anyway, let's try the code.
     console.log(interpreter.sum("1+2"));   // 3
     console.log(interpreter.sum("1+2-4")); // -1
 
-Note that Semantics has no concept of top symbol. The method you call will be treated as the top symbol. This allows for easy testing. 
+Note that Semantics! has no concept of top symbol. The method you call will be treated as the top symbol. This allows for easy testing. 
 
 ## How does Semantics! work?
 
@@ -177,3 +190,8 @@ If you want to build a normal syntax tree you might find this extension useful:
     
 
 <sup>1</sup> I am using the group concept rather than the sequence/concatenation concept, because you can do non-fooproof things with sequences and quantifiers. For example, Semantics doesn't have any equivalent of the regular expression /ab*/, ie a sequence of one a followed by zero or more as. A language described by Semantics! should either take this /(ab*)/ or this /(ab)*/ form. The name group is meant to emphasize this restriction.
+
+## Run unit tests
+<a href="../SpecRunner.html?inception=false">Run test cases</a>. It might be necessary to specify the path to the InterpreterMethodFactory.js file for the first test to run.
+
+<a href="../SpecRunner.html">Run test cases inception style</a>. An interpreter built with Semantics! is used to interpret the source code of Semantics!. Then the test cases are run on that interpretation. Then the interpreter is built with the interpretation and the testcases of the interpreter is run on that. It should take approximately 50 times longer. If you are running the test cases from a local file (the file:// protocol), the test cases cant read the source code automatically, for security reasons, so you have to locate them manually. Otherwise the tests will run on the normal Semantics!.
