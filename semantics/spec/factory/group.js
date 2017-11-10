@@ -65,7 +65,7 @@ describe("A group", function() {
     // My IDE thinks "hasOwnProperty is a really bad name"...
     var hop = "hasOwnProperty"; 
     var emptyString = "";
-    interpreter.appendProperty = f.empty(function() {
+    interpreter.appendProperty = f.or(function() {
       return "appended property";
     });
     
@@ -87,11 +87,11 @@ describe("A group", function() {
   });
   
   it("accepts all kinds of results from its parts", function() {
-    interpreter.emptyArray = f.empty(function() {
+    interpreter.emptyArray = f.or(function() {
       return [];
     });
     
-    interpreter.undef = f.empty(function() {
+    interpreter.undef = f.or(function() {
       return undefined;
     });
     
@@ -205,13 +205,13 @@ describe("A group", function() {
   it("calls intignificant nonterminals as a method of the interpreter", 
   function() {
     interpreter.aGroup = f.group("a");
-    interpreter.program = f.insignificant("aGroup", "b");
+    interpreter.program = f.insignificant("b", "aGroup");
     
     expect(interpreter.program("aba")).toEqual("b");
   });
   
   it("may be have insignificant regexes", function() {
-    interpreter.program = f.insignificant(/a/, "b");
+    interpreter.program = f.insignificant("b", /a/);
     
     expect(interpreter.program("aba")).toEqual("b");
   });

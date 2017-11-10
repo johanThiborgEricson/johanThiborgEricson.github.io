@@ -18,7 +18,7 @@ describe("The insignificant meta-nonterminal", function() {
       a: f.terminal(/a/),
       b: f.terminal(/b/),
       j: f.terminal(/j/),
-      ia: f.insignificant(/i/, "a"),
+      ia: f.insignificant("a", /i/),
     };
     
   });
@@ -28,7 +28,7 @@ describe("The insignificant meta-nonterminal", function() {
   });
   
   it("can be nested", function() {
-    interpreter.program = f.insignificant(/j/, "iab");
+    interpreter.program = f.insignificant("iab", /j/);
     interpreter.iab = f.or("ia", "b");
     
     expect(interpreter.program("jbj")).toBe("b");
@@ -49,19 +49,19 @@ describe("The insignificant meta-nonterminal", function() {
   });
   
   it("can be a nonterminal", function() {
-    interpreter.ja = f.insignificant("j", "a");
+    interpreter.ja = f.insignificant("a", "j");
     
     expect(interpreter.ja("jaj")).toBe("a");
   });
   
   it("becomes double padded on nesting", function() {
-    interpreter.program = f.insignificant(/j/, "ia");
+    interpreter.program = f.insignificant("ia", /j/);
     
     expect(interpreter.program("jiaij")).toBe("a");
   });
   
   it("fails to parse if its outer double padding fails to parse", function() {
-    interpreter.doublePadded = f.insignificant(/j/, "ia");
+    interpreter.doublePadded = f.insignificant("ia", /j/);
     interpreter.fail = f.terminal(/iaij/, fail);
     interpreter.program = f.or("doublePadded", "fail");
     

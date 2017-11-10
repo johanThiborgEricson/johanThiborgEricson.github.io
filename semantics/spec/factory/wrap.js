@@ -113,7 +113,7 @@ describe("A wrapper", function() {
     expect(interpreter.abc("abc")).toBe("a");
   });
   
-  it("fails to parse if a leading regex fails to parse", function() {
+  it("fails to parse if a trailing regex fails to parse", function() {
     interpreter.ab = f.wrap("a", /b/);
     interpreter.fail = f.terminal(/a/, fail);
     interpreter.program = f.or("ab", "fail");
@@ -128,6 +128,34 @@ describe("A wrapper", function() {
     interpreter.wrap("abc");
     
     expect(interpretation).toHaveBeenCalledWith("a");
+  });
+  
+  it("parses insignificants", function() {
+    interpreter.wrap = f.wrap(/b/, "a", /b/);
+    interpreter.insignificant = f.insignificant("wrap", /i/);
+    expect(interpreter.insignificant("ibiaibi")).toBe("a");
+  });
+  
+  it("must parse all leading anonymous terminals and insignificants", 
+  function() {
+    interpreter.wrap = f.wrap(/c/, /b/, "a");
+    interpreter.insignificant = f.insignificant("wrap", /i/);
+    interpreter.fail = f.terminal(/i?c?i?b?i?a?i?/, fail);
+    interpreter.program = f.or("insignificant", "fail");
+    expect(interpreter.program("icibiai")).toBe("a");
+    expect(interpreter.program("cibiai")).toBe("failure");
+    expect(interpreter.program("iibiai")).toBe("failure");
+    expect(interpreter.program("icbiai")).toBe("failure");
+    expect(interpreter.program("iciiai")).toBe("failure");
+    expect(interpreter.program("icibai")).toBe("failure");
+  });
+  
+  it("doesn't parse the second anonymous terminal twice", function() {
+    // Don't ask...
+    interpreter.wrap = f.wrap(/c/, /b/, "a");
+    interpreter.fail = f.terminal(/cbba/, fail);
+    interpreter.program = f.or("wrap", "fail");
+    expect(interpreter.program("cbba")).toBe("failure");
   });
   
 });

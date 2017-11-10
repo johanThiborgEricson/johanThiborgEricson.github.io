@@ -129,11 +129,11 @@ JavaScriptInterpreter.hack = function() {
   });
   
   /**
-   * <tt>insignificant(null, "stringLiteralSignificantSpaces")</tt>
+   * <tt>insignificant("stringLiteralSignificantSpaces", null)</tt>
    */
   JavaScriptInterpreter.prototype.stringLiteral = 
   interpreterMethodFactory.
-  insignificant(null, "stringLiteralSignificantSpaces");
+  insignificant("stringLiteralSignificantSpaces", null);
   
   /**
    * <tt>{@link InterpreterMethodFactory#or|or}
@@ -193,11 +193,11 @@ JavaScriptInterpreter.hack = function() {
   };
   
   /**
-   * <tt>insignificant(null, "regularExpressionLiteralSignificantSpaces")</tt>
+   * <tt>insignificant("regularExpressionLiteralSignificantSpaces, null")</tt>
    */
   JavaScriptInterpreter.prototype.regularExpressionLiteral = 
   interpreterMethodFactory.
-  insignificant(null, "regularExpressionLiteralSignificantSpaces");
+  insignificant("regularExpressionLiteralSignificantSpaces", null);
   
   /**
    * <tt>{@link InterpreterMethodFactory#wrap|wrap} (/\//, 
@@ -263,7 +263,7 @@ JavaScriptInterpreter.hack = function() {
    * reservedWord)</tt>
    */
   JavaScriptInterpreter.prototype.bindingIdentifier = 
-  interpreterMethodFactory.terminal(identifierName, reservedWord);
+  interpreterMethodFactory.butNot("identifierName", reservedWord);
   
   /**
    * <tt>{@link InterpreterMethodFactory#or|or} ("literal", 
@@ -388,10 +388,10 @@ JavaScriptInterpreter.hack = function() {
   });
   
   /**
-   * <tt>opt("args", function(){...})</tt>
+   * <tt>or("args", function(){...})</tt>
    */
   JavaScriptInterpreter.prototype.argumentsOpt = 
-  interpreterMethodFactory.opt("args", function(){
+  interpreterMethodFactory.or("args", function(){
     return [];
   });
   
@@ -893,10 +893,10 @@ JavaScriptInterpreter.hack = function() {
   interpreterMethodFactory.wrap(/=/, "assignmentExpression");
   
   /**
-   * <tt>opt("initialiser", function() {...})</tt>
+   * <tt>or("initialiser", function() {...})</tt>
    */
   JavaScriptInterpreter.prototype.initialiserOpt = 
-  interpreterMethodFactory.opt("initialiser", function() {
+  interpreterMethodFactory.or("initialiser", function() {
     return undefined;
   });
   
@@ -1009,10 +1009,10 @@ JavaScriptInterpreter.hack = function() {
   interpreterMethodFactory.methodFactory("elseStatementOpt");
   
   /**
-   * <tt>opt("elseStatement", function() {...})</tt>
+   * <tt>or("elseStatement", function() {...})</tt>
    */
   JavaScriptInterpreter.prototype.elseStatementOpt = 
-  interpreterMethodFactory.opt("elseStatement", 
+  interpreterMethodFactory.or("elseStatement", 
   function() {
     return ["normal", undefined];
   });
@@ -1128,10 +1128,10 @@ JavaScriptInterpreter.hack = function() {
   "deferredSourceElements");
   
   /**
-   * <tt>opt("useStrictDeclaration")</tt>
+   * <tt>or("useStrictDeclaration")</tt>
    */
   JavaScriptInterpreter.prototype.useStrictDeclarationOpt = 
-  interpreterMethodFactory.opt("useStrictDeclaration");
+  interpreterMethodFactory.or("useStrictDeclaration", function() {});
   /**
    * <tt>{@link InterpreterMethodFactory#group|group}
    * (/('use strict')|("use strict")/, /;/)</tt>
@@ -1163,10 +1163,10 @@ JavaScriptInterpreter.hack = function() {
   };
   
   /**
-   * <tt>insignificant("spaces", "sourceElements")</tt>
+   * <tt>insignificant("sourceElements", "spaces")</tt>
    */
   JavaScriptInterpreter.prototype.program1 = 
-  interpreterMethodFactory.insignificant("spaces", "sourceElements");
+  interpreterMethodFactory.insignificant("sourceElements", "spaces");
   
   /**
    * <tt>{@link InterpreterMethodFactory#or|or} ("statementList")</tt>
