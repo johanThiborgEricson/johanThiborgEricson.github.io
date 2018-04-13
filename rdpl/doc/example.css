@@ -1,0 +1,5 @@
+.example {
+  display: block;
+  white-space: pre-wrap;
+  font-family: monospace;
+}

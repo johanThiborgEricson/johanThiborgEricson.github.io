@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>RDPL, introduction</title>
+    <link rel="shortcut icon" type="image/png" href="../lib/jasmine-3.1.0/jasmine_favicon.png">
+    <link rel="stylesheet" href="../lib/jasmine-3.1.0/jasmine.css">
+    <link rel="stylesheet" href="example.css">
+    <script src="../lib/jasmine-3.1.0/jasmine.js"></script>
+    <script src="../lib/jasmine-3.1.0/jasmine-html.js"></script>
+    <script src="../lib/jasmine-3.1.0/boot.js"></script>
+    
+    <script src="Printer.js"></script>
+    <script src="checkCalls.js"></script>
+  </head>
+  
+  <body>
+    <h1>Recursive Descent Parser Plus Left Recursion, RDPL</h1>
+    <p>
+Recursive Descent Parser Plus Left Recursion, RDPL, is a minimalistic JavaScript parsing library that enhances user defined
+<a target="_blank" href="https://en.wikipedia.org/wiki/Recursive_descent_parser">recursive descent parser</a> methods
+with memoization and the ability to parse languages with direct, indirect or mutual left recursive definitions.
+The API of RDPL is an object <code>parser</code> created by the user with
+an integer property <code>position</code>, a boolean property <code>parseSuccess</code> and a
+<code>leftRecursionSolver</code> that stores the the memoized values and internal state required to solve left recursions.
+There should probably also be a property containing something to parse, like a some string <code>code</code>,
+but that is not part of the RDPL API.
+The function <code>rdpl(rule)</code> takes a function with the parsing instructions,
+and returns a parsing method that supports left recursion, to be put on a <code>parser</code>.
+There will be an <a href="#calculatorExample">example</a> using the API later in this document.
+    </p>
+    <p>
+Normally, a parsing method delegates directly to its <code>rule</code> or returns a memoized value without calling the <code>rule</code>.
+However, if the rules make recursive calls to eachother that would normaly lead to an infinite loop,
+the parsing methods call their <code>rule</code>s in a reversed
+<a target="_blank" href="https://en.wikipedia.org/wiki/Bottom-up_parsing">bottom-up</a> order.
+This way, parsing methods can "solve" recursive calls in the <code>rule</code>s,
+and that makes them able to parse languages with left recursive definitions.
+    </p>
+    <p>
+Apart from this, calling a parsing method behaves exactly as if it was its <code>rule</code> that was called.
+When a <code>rule</code> is called, it will always be with a
+<a target="_blank" href="https://en.wikipedia.org/wiki/Object_copying#Deep_copy">deep copy</a>
+of the <code>arguments</code> of its parsing method,
+and a parsing method will <a href="#iterationZero">almost</a> always return the (possibly memoized) result of such a call.
+This makes it possible to call a parsing method and use the result as if it was its <code>rule</code> that was called directly,
+but without having to worry about the call going into an infinite recursion.
+The transparacy between parsing methods and their <code>rule</code>s makes RDPL easy to learn and to use.
+    </p>
+    <p>
+Compared to other parsing libraries, RDPL requires
+<a href="#calculatorExample">quite a lot of code</a>
+when the first parts of a language is defined.
+However, as the language grows, it will be possible to refactor out most of that complexity.
+While this approach will require some extra work up front,
+it also allows for great flexibility.
+A sequence rule might be implemented by calling a function with the name of its parts,
+or it might be a parsing method that accepts a list with the name of its parts,
+or a parsing method that is called with the name of the sequence,
+that looks up the names of its parts in some global map.
+Most importantly, <code>rule</code>s gives a very fine grained interface to how, what and when its result should be constructed and returned.
+Namespace modules might be implemented as objects with named <code>rule</code>s.
+Inheritance between modules could be implemented with <code>Object.create()</code>.
+With a little work, the language definition files of other parsing libraries might be used.
+Best of all, other peoples well tested solutions might be copied from the Internet.
+    </p>
+    <p>
+Defining the language in the code of the <code>rule</code>s also makes RDPL accept a very large class of languages.
+Matching XML tags with any name can be done by making the opening tag rule return its name and pass that name to the rule of the closing tag,
+telling it to accept no other name.
+A matcher of
+<a target="_blank" href="https://en.wikipedia.org/wiki/Parsing_expression_grammar#Examples">a<sup>n</sup>b<sup>n</sup>c<sup>n</sup></a>
+counts the a:s in its first rule,
+and pass that nuber to the rules matching b and c, asking them only to match if they parse the right number of b:s and c:s.
+Parsing can be done asynchronously using Promises, allowing the parser to load new parsing instructions in files, mid-parse,
+e. g. for loading DTDs dynamically when parsing XML.
+    </p>
+    <h1>Left Recursive Definitions</h1>
+    <p>
+This section will give a usage example of RDPL.
+It starts with some theory, but if you want, you may skip ahead directly to the <a href="#calculatorExample">code</a>.
+    </p>
+    <p>
+The additive operator <code>+</code> is a language construct that is often defined in a left recursive way.
+This is the language of very simple mathematic expressions containing a digit, a plus sign and a digit.
+    </p>
+    <code class="example">
+addition  &lt;- digit + digit
+digit     &lt;- 0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9
+    </code>
+    <p>
+Note that this is not RDPL code, it is just a description.
+The language states that a digit is 0, 1, 2, ... , 8 or 9.
+An addition in this language is evaluated by evaluating the first and the second digit and add the results.
+The language can be expanded to accept additions with more terms if we introduce the concept of a sum:
+    </p>
+    <code class="example">
+sum       &lt;- addition / digit
+addition  &lt;- sum + digit
+digit     &lt;- 0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9
+    </code>
+    <p>
+Here, a sum might be an addition or a digit, and the left hand side of an addition is a sum.
+Therefore, an addition might be a digit plus a digit, if its left hand side sum is a digit.
+At the bottom, the sums are accentuated by putting parentheses around them.
+Notice that both <code>1</code> and <code>1+2</code> is a sum.
+    </p>
+    <code class="example">
+expression = "1+2"
+
+   add        add       add
+  / | \  =   / | \  =  / | \
+sum + dig  dig + dig  1  +  2
+
+((1)+2)
+    </code>
+    <p>
+This language does also accept a digit plus a second digit plus a third digit,
+if the left hand side sum of the second addition is the first addition.
+This way, the language alowes for sums of any length.
+The evaluation of an addition in this language is just as straightforward: evaluate the the sum and the digit and add their results.
+    </p>
+    <code class="example">
+expression = "1+2+3"
+
+                              add          add          add
+   add         add           / | \        / | \        / | \
+  / | \    =  / | \    =   add +  3 =   add +  3 =   add +  3
+sum + dig   add + dig     / | \        / | \        / | \
+                        sum + dig    dig + dig     1  +  2
+
+(((1)+2)+3)
+    </code>
+    <p>
+Here, the parentheses also show the order of evaluation, the leftmost plus is evaluated first.
+This makes the binary operator <code>+</code> of this language left accossiative.
+Although there are other ways to describe additions with more than two terms,
+this is arguably the solution that is the easiest to reason about and verify the correctness of,
+and it is also the formalism chosen by most language implementations.
+Since it contains a left recursive definition,
+it is also suitible to demonstrate how RPDL can be used to solve recursive calls.
+Note that <code>this.expression</code> is not part of the API,
+so it could as well be named <code>this.code</code>
+or be a <code>this.symbolList</code> created by a scanner
+or a <code>this.byteStream</code>.
+    </p>
+    <code class="example" id="calculatorExample">
+function Calculator(expression) {
+  this.leftRecursionSolver = new LeftRecursionSolver();
+  this.expression = expression;
+  this.position = 0;
+  this.parseSuccess = true;
+}
+
+Calculator.prototype.sum = rdpl(function() {
+  if(this.parseSuccess) {
+    var backtrack = this.position;
+    var result = this.addition();
+    if(!this.parseSuccess) {
+      this.parseSuccess = true;
+      this.position = backtrack;
+      result = this.digit();
+    }
+    return result;
+  }
+});
+
+Calculator.prototype.addition = rdpl(function() {
+  var term1 = this.sum();
+  if(this.expression[this.position] === "+"){
+    this.position++;
+  }
+  var term2 = this.digit();
+  return term1 + term2;
+});
+
+Calculator.prototype.digit = rdpl(function() {
+  var digitRegex = new RegExp("0|1|2|3|4|5|6|7|8|9", "yg");
+  digitRegex.lastIndex = this.position;
+  var match = digitRegex.exec(this.expression);
+  if(match && match.index === this.position) {
+    this.position++;
+    return Number(match[0]);
+  }
+});
+
+var calculator = new Calculator("2+3+4");
+// result = 9
+var result = calculator.sum();
+    </code>
+    <p>
+If this was a regular recursive descent parser,
+<code>sum</code> would set its backtrack position and call <code>addition</code>.
+Then <code>addition</code> would call <code>sum</code>.
+Then, <code>sum</code> would once more call <code>addition</code>,
+and the execution would be stuck with unlimited calls back and forth between
+<code>sum -&gt; addition -&gt; sum -&gt; addition -&gt; sum -&gt; addition -&gt; ...</code>  until the stack is full.
+But since <code>calculator.sum</code> and <code>addition</code> are parsing methods made with <code>rdpl(rule)</code>,
+they will solve the recursion and run their <code>rule</code>s on that solution instead.
+The thorough reader might wonder how the <code>if</code> clause of <code>sum</code> can ever be entered.
+This is because under
+<a href="#iterationZero">some circumstances</a>,
+a parsing method sets <code>this.parseSuccess</code> to <code>false</code>.
+    </p>
+    <p>
+While RDPL can handle much more complex left recursive languages than this,
+the basic principle is the same.
+You write your parser in the way most intuitive to you, without having to worry about infinite recursions.
+When the parser is run, it silently solves all the recursive calls in the background,
+so that your functions will run safely.
+    </p>
+    <p>
+This is the one and only thing RDPL can do for you.
+If you want this functionallity, there are basicaly just three more things you need to know before you can start using it.
+The first thing is that if you want change the thing you are parsing,
+you must create a new <code>this.leftRecursionSolver</code>,
+or the parsing methods will return memoized results from the earlier thing you parsed.
+The second is that your function will be called with a
+<a target="_blank" href="https://en.wikipedia.org/wiki/Object_copying#Deep_copy">deep copy</a>
+of the arguments using
+<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify"><code>JSON.stringify()</code></a>
+and
+<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse"><code>JSON.parse()</code></a>.
+For strings and numbers, you won't see the difference.
+For objects and arrays, you will not get the same object or array, but an identical copy.
+Functions and regular expressions does not have a <code>toJSON</code> method, so they will be removed or replaced with undefined.
+But you can go past this by setting
+<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#toJSON()_behavior"><code>toJSON</code></a>
+property to <code>toString</code> and, e. g. <code>eval()</code> the resulting string.
+The third thing you need to remember is that your functions won't be called each time their parsing methods are called.
+Sometimes they will just return a memoized result.
+This has two consequences.
+    </p>
+    <ul>
+      <li>
+The result of your function should only depend on the arguments it gets and the code it parses.
+Calling a function at the same <code>position</code>, with the same <code>arguments</code> will return a cached value, not re-run your function.
+      </li>
+      <li>
+You cannot rely on a "child" function being run by a certain "parent" function.
+Calling a parsing method might return a memoized value without running the associated function,
+who thinks it is the child of another parent function.
+So don't try to bypass the deep copy mechanism of the <code>arguments</code> by saving and retrieving globaly stored variables.
+      </li>
+    </ul>
+    <p>
+This typically happens when you try to implement something like variable scoops.
+You have to initialize such things after all parsing is done. Sorry.
+Anyway, now you don't have to read anymore, if you don't want to.
+You can go ahead and start using the library.
+    </p>
+    <h1>Installation</h1>
+    <p>
+To be written.
+    </p>
+    <h1>Solving recursive definitions</h1>
+    <p>
+In the rest of this document, I will show how the RDPL algorithm works, by implementing it step by step.
+But first, i will demonstrate the beahaviour it emulates
+by going through the order that a magic parsing algorithm would call the rules to parse the expression <code>2+3+4</code>
+    </p>
+    <code class="example">
+Line  Parse tree            result    position  parseSuccess
+1     sumPM                           |2+3+4    true
+34     sumR                           |2+3+4    true
+35      additionPM                    |2+3+4    true
+36       additionR                    |2+3+4    true
+37        sumPM                       |2+3+4    true
+20         sumR                       |2+3+4    true
+21          additionPM                |2+3+4    true
+22           additionR                |2+3+4    true
+23            sumPM                   |2+3+4    true
+2              sumR                   |2+3+4    true
+3               additionPM            |2+3+4    true
+4                additionR            |2+3+4    true
+5                 sumPM               |2+3+4    true
+6                 /sumPM    undefined |2+3+4    false
+7                 "+"                 |2+3+4    false
+8                 /"+"      n/a       |2+3+4    false
+9                 digitPM             |2+3+4    false
+10                 digitR             |2+3+4    false
+11                 /digitR  2         2|+3+4    false
+12                /digitPM  2         2|+3+4    false
+13               /additionR NaN       2|+3+4    false
+14              /additionPM NaN       2|+3+4    false
+15              digitPM               |2+3+4    true
+16               digitR               |2+3+4    true
+17               /digitR    2         2|+3+4    true
+18              /digitPM    2         2|+3+4    true
+19             /sumR        2         2|+3+4    true
+24            /sumPM        2         2|+3+4    true
+25            "+"                     2|+3+4    true
+26            /"+"          n/a       2+|3+4    true
+27            digitPM                 2+|3+4    true
+28             digitR                 2+|3+4    true
+29             /digitR      3         2+3|+4    true
+30            /digitPM      3         2+3|+4    true
+31           /additionR     5         2+3|+4    true
+32          /additionPM     5         2+3|+4    true
+33         /sumR            5         2+3|+4    true
+38        /sumPM            5         2+3|+4    true
+39        "+"                         2+3|+4    true
+40        /"+"              n/a       2+3+|4    true
+41        digitPM                     2+3+|4    true
+42         digitR                     2+3+|4    true
+43         /digitR          4         2+3+4|    true
+44        /digitPM          4         2+3+4|    true
+45       /additionR         9         2+3+4|    true
+46      /additionPM         9         2+3+4|    true
+47     /sumR                9         2+3+4|    true
+62    /sumPM                9         2+3+4|    true
+    </code>
+    <p>
+The slightly out-of-order line numbers relates to the order in which the real algorithm will be run.
+You can safely ignore them for now, but I will refere to them with that number.
+At the line named 21, a recursive call to <code>sum</code> is made, but the parsing algorithm alowes it.
+The same thing happens for <code>addition</code> at the line called 12, and then again at line 13 and 2.
+But then, at the lines called 3 and 4, the magic parsing algorithm suddenly decides not to allow another recursive call to <code>sum</code>.
+It does also set <code>this.parseSuccess = false</code> to indicate to its ancestors that they should try another option.
+Since sum is implemented to run to completion, even if a part fails, it does that.
+The result of the addition on the line named 9 is <code>NaN</code>, since that is the value you get from <code>undefined+2</code> in JavaScript.
+Anyway, that result is trown away by the sum from line 13, since <code>this.parseSuccess === false</code>.
+Instead, <code>sum</code> tries and succeeds to parse the <code>digit 2</code>, on the lines named 7 and 8.
+Then, the <code>addition</code> that was alowed by the algorithm to enter at the line called 12 parses the <code>+</code> and the <code>3</code>,
+and the <code>addition</code> from line 20 parses the final <code>+</code> and <code>4</code>.
+    </p>
+    <code class="example">
+Line named
+20        12         10           17          26
+
+                     add          add         add
+          add       /            /           / | \
+add =>   /    =>  add     =>   add   =>    add +  4
+        add      /            / | \       / | \
+               dig           2  + dig    2  +  3
+    </code>
+    <p>
+This magic in this algorithm is that it knows in advance how many <code>addition</code>s to enter,
+so that each trailing <code>+</code> and <code>digit</code>, get an <code>addition</code> to scan them, no more, no less.
+In this case, there are two additions, so we enter two <code>additions</code> recursively, but fail the third recursive entry.
+An LR-parser solves this by deriving from right to left, but a scannerless parser like RDPL can only derive from left to right.
+    </p>
+    <h1>From recursive top down to iterative bottom up</h1>
+    <p>
+When RDPL finds a left recursive definition, it stops being a recursive top-down parser and goes into an iterative bottom-up mode.
+That way, the bottom-up derivation can be done from left to right, as mandated by its scanner-less nature.
+Below is a high-level description of how it works.
+Notice that each <code>sum_n</code> is derived in terms of <code>sum_n-1</code>.
+    </p>
+    <code class="example">
+expression = "2+3+4"
+
+(sum iteration 0)
+sum_0 = 2
+
+(sum iteration 1)
+               add           add
+sum_1 =       / | \    =    / | \
+         sum_0  +  3       2  +  3
+
+(sum iteration 2)
+                              add
+               add           / | \
+sum_2 =       / | \    =   add +  4
+         sum_1  +  4      / | \
+                         2  +  3
+    </code>
+    <p>
+In iteration 0, the parser is still in top down mode, but then it discovers a recursive call to <code>sum</code>
+This makes the parser go into an iterative bottom up mode.
+The recursive call fails so that a base case can be found, in this case by parsing the digit <code>2</code>.
+Sum stores the <code>2</code> as its result and retries in iteration 1.
+In iteration 1, the first addition succeeds since sum can return its memoized value <code>2</code>.
+Then, the first addition can parse <code>+3</code>, and return the resulting <code>2+3</code> to <code>sum</code>,
+that memoizes <code>5</code>.
+In iteration 2, the second addition gets <code>sum</code>s memoized value <code>2+3</code> as its left hand side, followed by <code>+4</code>.
+In iteration 3, <code>addition</code> can't parse any plus sign and digit after its left hand side <code>2+3+4</code>,
+so it fails.
+Then sum tries its second alternative, <code>digit</code>, that succeeds to parse <code>2</code>,
+but since that match is shorter than <code>2+3+4</code>, the previous match is returned and no more iterantions are tried.
+    </p>
+    <code class="example">
+Line  Parse tree      return    position  parseSuccess
+1     sumPM                     |2+3+4    true
+2      sumR                     |2+3+4    true
+3       additionPM              |2+3+4    true
+4        additionR              |2+3+4    true
+5         sumPM                 |2+3+4    true
+6         /sumPM      undefined |2+3+4    false
+7         "+"                   |2+3+4    false
+8         /"+"        n/a       |2+3+4    false
+9         digitPM               |2+3+4    false
+10         digitR               |2+3+4    false
+11         /digitR    2         2|+3+4    false
+12        /digitPM    2         2|+3+4    false
+13       /additionR   NaN       2|+3+4    false
+14      /additionPM   NaN       2|+3+4    false
+15      digitPM                 |2+3+4    true
+16       digitR                 |2+3+4    true
+17       /digitR      2         2|+3+4    true
+18      /digitPM      2         2|+3+4    true
+19     /sumR          2         2|+3+4    true
+(sum iteration 1)
+20     sumR                     |2+3+4    true
+21      additionPM              |2+3+4    true
+22       additionR              |2+3+4    true
+23        sumPM                 |2+3+4    true
+24        /sumPM      2         2|+3+4    true
+25        "+"                   2|+3+4    true
+26        /"+"        n/a       2+|3+4    true
+27        digitPM               2+|3+4    true
+28         digitR               2+|3+4    true
+29         /digitR    3         2+3|+4    true
+30        /digitPM    3         2+3|+4    true
+31       /additionR   5         2+3|+4    true
+32      /additionPM   5         2+3|+4    true
+33     /sumR          5         2+3|+4    true
+(sum iteration 2)
+34     sumR                     |2+3+4    true
+35      additionPM              |2+3+4    true
+36       additionR              |2+3+4    true
+37        sumPM                 |2+3+4    true
+38        /sumPM      5         2+3|+4    true
+39        "+"                   2+3|+4    true
+40        /"+"        n/a       2+3+|4    true
+41        digitPM               2+3+|4    true
+42         digitR               2+3+|4    true
+43         /digitR    4         2+3+4|    true
+44        /digitPM    4         2+3+4|    true
+45       /additionR   9         2+3+4|    true
+46      /additionPM   9         2+3+4|    true
+47     /sumR          9         2+3+4|    true
+(sum iteration 3)
+48     sumR                     |2+3+4    true
+49      additionPM              |2+3+4    true
+50       additionR              |2+3+4    true
+51        sumPM                 |2+3+4    true
+52        /sumPM      9         2+3+4|    true
+53        "+"                   2+3+4|    true
+54        /"+"        n/a       2+3+4|    true
+55        digitPM               2+3+4|    true
+56         digitR               2+3+4|    true
+57         /digitR    undefined 2+3+4|    true
+58        /digitPM    undefined 2+3+4|    true
+59       /additionR   NaN       2+3+4|    true
+60      /additionPM   NaN       2+3+4|    true
+61     /sumR          NaN       2+3+4|    true
+62    /sumPM          9         2+3+4|    true
+    </code>
+    <p>
+At line 3, the parsing method of <code>sum</code> detects a recursive definition
+since there already is a call to <code>sum</code> at the stack at the same position === 0.
+To detect a base case, the parsing method of <code>sum</code> sets <code>this.parseSuccess</code> to <code>false</code>
+and returns <code>undefined</code> without applying its rule.
+Oblivious of the parse failure, the <code>addition</code> continues to parse at lines 5 to 8,
+but when its done, <code>sum</code> throws the result away,
+since <code>this.parseSuccess === false</code>, and tries to parse a <code>digit</code> instead.
+At line 7 and 8, <code>digit</code> scans the first <code>2</code>,
+which also becomes the result of <code>sum</code>, and the base case <code>sum_0</code> of the iteration.
+    </p>
+    <p>
+In iteration 1, the parsing method of <code>sum</code> memoizes that <code>sum</code> at position === 0
+has returned the value <code>2</code> and ends at position 1.
+In this iteration, <code>addition</code> parses successfully, since it can retrive the memoized value of sum in lines 13 and 14.
+    </p>
+    <p>
+In iteration 2, <code>sum</code> at 0 is memoized to return 5 and end at position 3.
+Therefore, addition successfuly parses it and the final <code>+4</code>.
+    </p>
+    <p>
+In iteration 3, digit returns  undefined, since its regular expression can't match a digit at the end of the string,
+but the implementer has been too lazy to make it set <code>this.parseSuccess</code> to <code>false</code>
+Fortunately, the parsing method of <code>sum</code> decides not to make any more calls,
+since the last call couldn't parse more than the second to last.
+Then <code>sum</code> returns the second to last result <code>9</code>.
+    </p>
+    <h1>Jasmine and hash sets of strings</h1>
+    <p>
+The first step of the RDPL algorithm is to detect and break recursive calls.
+To do that, we need to keep track of all calls that are currently on the stack.
+Then, each parsing method can check if it is already on the stack.
+If it is, the call is recursive.
+This can be done by giving each method an unique <code>id</code>,
+and maintaining a set of all <code>id</code>s currently on the stack.
+    </p>
+    <p>
+As it happens, <code>Object.create(null)</code> creates a type of hashmap, so it can be used to keep track of the stack.
+Since the object is created with <code>null</code> as its prototype,
+it doesn't inherit any properties, like <code>toString()</code> or <code>hasOwnProperty()</code>.
+It is really a HashMap&lt;string&gt;, but it can also be used to store integers,
+since JavaScript converts the integers to strings before setting and retrieval.
+Below is a Jasmine unit test that demonstrates how.
+    </p>
+    <script class="example">
+describe("An object hashset with null as prototype", function() {
+  function HashSet() {
+    this.set = Object.create(null);
+  }
+  
+  HashSet.prototype.add = function(value) {
+    this.set[value] = true;
+  };
+  
+  HashSet.prototype.delete = function(value) {
+    delete this.set[value];
+  };
+  
+  HashSet.prototype.has = function(value) {
+    return this.set[value];
+  };
+  
+  HashSet.prototype.addAll = function(anotherHashSet) {
+    Object.assign(this, anotherHashSet);
+  };
+  
+  HashSet.prototype.clone = function() {
+    var clone = new HashSet();
+    Object.assign(clone.set, this.set);
+    return clone;
+  };
+  
+  it("can be used to store integers", function() {
+    var hashSet = new HashSet();
+    hashSet.add(3);
+    expect(hashSet.has(3)).toBe(true);
+  });
+  
+  it("really stores strings", function() {
+    var hashSet = new HashSet();
+    hashSet.add(3);
+    expect(hashSet.has("3")).toBe(true);
+  });
+  
+  it("uses undefined to indicate that a value isn't in the set", function() {
+    var hashSet = new HashSet();
+    expect(hashSet.has(3)).toBe(undefined);
+  });
+  
+  it("can remove a value", function() {
+    var hashSet = new HashSet();
+    hashSet.add(3);
+    hashSet.delete(3);
+    expect(hashSet.has(3)).toBe(undefined);
+  });
+  
+  it("can be used in if statements", function() {
+    var yes = jasmine.createSpy("yes");
+    var no = jasmine.createSpy("no");
+    var hashSet = new HashSet();
+    hashSet.add(3);
+    if(hashSet.has(3)) {
+      yes();
+    }
+    expect(yes).toHaveBeenCalled();
+    if(hashSet.has(4)) {
+      no();
+    }
+    expect(no).not.toHaveBeenCalled();
+  });
+  
+  it("can add all elements of another hash set", function() {
+    var hashSet = new HashSet();
+    var anotherHashSet = new HashSet();
+    anotherHashSet.add(3);
+    anotherHashSet.add(4);
+    hashSet.addAll(anotherHashSet);
+    expect(hashSet.has(3)).toBe(true);
+    expect(hashSet.has(4)).toBe(true);
+  });
+  
+  it("can be cloned", function() {
+    var hashSet = new HashSet();
+    hashSet.add(3);
+    hashSet.add(4);
+    var clone = hashSet.clone();
+    expect(clone).not.toBe(hashSet);
+    expect(clone.has(3)).toBe(true);
+    expect(clone.has(4)).toBe(true);
+  });
+  
+  it("doesn't inherit values", function() {
+    var hashSet = new HashSet();
+    expect(hashSet.has("toString")).toBe(undefined);
+  });
+  
+});
+    </script>
+    <p>
+RDPL relies heavily on such data structures,
+but they are used in their primitive form <code>Object.create(null)</code>,
+not with an object wrapper <code>new HashSet()</code> like here.
+    </p>
+    <p>
+I hope that the code example is understandable even if you don't have any prior experience with Jasmine.
+Otherwise, you might want to visit
+<a href="https://jasmine.github.io/tutorials/your_first_suite">this tutorial</a>
+before you read on.
+    </p>
+    <h1 id="iterationZero">Iteration 0</h1>
+    <p>
+The <code>rdpl</code> function will be implemented in steps by trying to make the calls look like described.
+To match line 2, it must call its rule
+    </p>
+    <script class="example">
+function LeftRecursionSolver() {
+  
+}
+
+function rdpl(rule) {
+  return function() {
+    return rule.apply(this);
+  };
+}
+    </script>
+    <script src="rules.js"></script>
+    <script src="Calculator.js"></script>
+    
+    <p>
+Then the call stack will look like this:
+    </p>
+    <code class="example">
+Line  Parse tree
+1     sumPM
+2      sumR
+3       additionPM
+4        additionR
+5         sumPM
+6          sumR
+7           AdditionPM
+8            AdditionR
+9             ...
+10             ...
+11              ...
+    </code>
+    <p>
+Until the stack is full.
+The parsing method of <code>sum</code> on line 5 should not call its rule,
+since it is already on the stack.
+Therefore, parsing methods need some way to know if they are already on the stack.
+This is achieved by giving each parsing method an unique integer <code>id</code>,
+and maintaining a set of all <code>id</code>s whose parsing method is on the stack.
+    </p>
+    <script class="example">
+function LeftRecursionSolver() {
+  this.stack = Object.create(null);
+}
+
+function rdpl(rule) {
+  var id = rdpl.id++;
+  return function() {
+    if(!this.leftRecursionSolver.stack[id]){
+      this.leftRecursionSolver.stack[id] = true;
+      var result = rule.apply(this);
+      delete this.leftRecursionSolver.stack[id];
+      return result;
+    } else {
+      //  Line 6
+    }
+  };
+}
+
+rdpl.id = 0;
+    </script>
+    <p>
+Now, the recursion is broken.
+    </p>
+    <code class="example" id="breakRecursion">
+Line  Parse tree      result    position  parseSuccess  stack
+1     sumPM                     |2+3+4    true          {}
+2      sumR                     |2+3+4    true          {sum}
+3       additionPM              |2+3+4    true          {sum}
+4        additionR              |2+3+4    true          {sum, addition}
+5         sumPM                 |2+3+4    true          {sum, addition}
+6         /sumPM      undefined |2+3+4    true          {sum, addition}
+7         digitPM               |2+3+4    true          {sum, addition}
+8          digitR               |2+3+4    true          {sum, addition, digit}
+9          /digitR    2         2|+3+4    true          {sum, addition, digit}
+10        /digitPM    2         2|+3+4    true          {sum, addition}
+11       /additionR   NaN       2|+3+4    true          {sum, addition}
+12      /additionPM   NaN       2|+3+4    true          {sum}
+13     /sumR          NaN       2|+3+4    true          {sum}
+14    /sumPM          NaN       2|+3+4    true          {}
+    </code>
+    <script src="CallPrintingCalculator.js"></script>
+    <script>
+var callPrintingCalculators = {};
+    </script>
+    <script>
+callPrintingCalculators.breakRecursion = new CallPrintingCalculator("2+3+4", [
+  "Line", 6,
+  "Parse tree", 16,
+  "result", 10,
+  "position", 10,
+  "parseSuccess", 14,
+  "stack", 0
+]);
+
+describe("A parsing method", function() {
+  it("can detect and break recursions", function() {
+    checkCalls("breakRecursion")
+  });
+  
+});
+    </script>
+    <p>
+On line 5, the parsing method of <code>sum</code> detects that it is already on the stack, so it doesn't excecute its rule.
+The base case <code>digit</code> 2 isn't found by sum from line 2,
+since its addition reports that it has parsed <code>NaN</code> successfully on line 14.
+The parse should fail on line 6, where the recursion is detected.
+    </p>
+    <script class="example">
+function rdpl(rule) {
+  var id = rdpl.id++;
+  return function() {
+    if(!this.leftRecursionSolver.stack[id]){
+      this.leftRecursionSolver.stack[id] = true;
+      var result = rule.apply(this);
+      delete this.leftRecursionSolver.stack[id];
+      return result;
+    } else {
+      //  Line 6
+      this.parseSuccess = false;
+    }
+  };
+}
+
+rdpl.id = 0;
+    </script>
+    
+    <p>
+This is enough to finish the zeroth iteration.
+    </p>
+    <code class="example" id="zerothCalls">
+Line  Parse tree      result    position  parseSuccess
+1     sumPM                     |2+3+4    true
+2      sumR                     |2+3+4    true
+3       additionPM              |2+3+4    true
+4        additionR              |2+3+4    true
+5         sumPM                 |2+3+4    true
+6         /sumPM      undefined |2+3+4    false
+7         digitPM               |2+3+4    false
+8          digitR               |2+3+4    false
+9          /digitR    2         2|+3+4    false
+10        /digitPM    2         2|+3+4    false
+11       /additionR   NaN       2|+3+4    false
+12      /additionPM   NaN       2|+3+4    false
+13      digitPM                 |2+3+4    true
+14       digitR                 |2+3+4    true
+15       /digitR      2         2|+3+4    true
+16      /digitPM      2         2|+3+4    true
+17     /sumR          2         2|+3+4    true
+18    /sumPM          2         2|+3+4    true
+    </code>
+    <script>
+callPrintingCalculators.zerothCalls = new CallPrintingCalculator("2+3+4", [
+  "Line", 6,
+  "Parse tree", 16,
+  "result", 10,
+  "position", 10,
+  "parseSuccess", 0
+]);
+
+describe("A parsing method", function() {
+  it("can detect and break recursions", function() {
+    checkCalls("zerothCalls");
+  });
+  
+});
+    </script>
+    <p>
+And a test case.
+    </p>
+    <script class="example">
+describe("RDPL", function() {
+  it("can determine the base case of a recursive definition", function() {
+    var calculator = new Calculator("2");
+    expect(calculator.sum()).toBe(2);
+  });
+  
+});
+    </script>
+    <h1>Recursions and the position</h1>
+    <p>
+Soon, we will start implementing the iteration part of the algorithm,
+but first I must make a quick note on <code>position</code>s importance in deciding what is recursive.
+To demonstrate this, I will make a calculator <code>RCalculator</code> where addition has right associativity,
+making it right recursive in the language.
+    </p>
+    <script class="example">
+function RCalculator(expression) {
+  this.expression = expression;
+  this.position = 0;
+  this.parseSuccess = true;
+}
+
+RCalculator.prototype.sum = function() {
+  if(this.parseSuccess) {
+    var backtrack = this.position;
+    var result = this.addition();
+    if(!this.parseSuccess) {
+      this.parseSuccess = true;
+      this.position = backtrack;
+      result = this.digit();
+    }
+    return result;
+  }
+};
+
+RCalculator.prototype.addition = function() {
+  var term1 = this.digit();
+  if(this.expression[this.position] === "+"){
+    this.position++;
+  } else {
+    this.parseSuccess = false;
+  }
+  var term2 = this.sum();
+  return term1 + term2;
+};
+
+RCalculator.prototype.digit = function() {
+  var digitRegex = new RegExp("0|1|2|3|4|5|6|7|8|9", "yg");
+  digitRegex.lastIndex = this.position;
+  var match = digitRegex.exec(this.expression);
+  if(match && match.index === this.position) {
+    this.position++;
+    return Number(match[0]);
+  } else {
+    this.parseSuccess = false;
+  }
+};
+    </script>
+    <p>
+There are three differences between <code>Calculator</code> and <code>RCalculator</code>.
+The latter one
+    </p>
+    <ol>
+      <li>doesn't use <code>rdpl</code> or <code>LeftRecursionSolver</code>,</li>
+      <li>adds some else clauses with <code>this.parseSuccess = false</code>, but most importantly</li>
+      <li>it has swiched the calls to <code>this.digit()</code> and <code>this.sum()</code> in the addition rule</li>
+    </ol>
+    <p>
+It is the third point that makes the parser right recursive, not left recursive.
+Therefore, RDPL isn't needed, because recursive descent parsers can handle right recursion without any help.
+    </p>
+    <p>
+The difference between left and right associative operators can be seen in the parse tree they create for the expression <code>2+3+4</code>:
+    </p>
+    <code class="example">
+Left associative:
+
+     add
+    / | \
+  add +  4
+ / | \
+2  +  3
+
+Right associative:
+
+  add
+ / | \
+2  + add
+    / | \
+   3  +  4
+    </code>
+    <p>
+This test will make recursive calls in this order:
+    </p>
+    <script>
+describe("A right recursive calculator", function() {
+  it("can do addition on its own", function() {
+    var rCalculator = new RCalculator("2+3+4");
+    expect(rCalculator.sum()).toBe(9);
+  });
+});
+    </script>
+    <p>
+The methods will be called like this:
+    </p>
+    <code class="example" id="rCalculator">
+Line  Parse tree          result    position  parseSuccess
+1     sum                           |2+3+4    true
+2       addition                    |2+3+4    true
+3         digit                     |2+3+4    true
+4         /digit          2         2|+3+4    true
+5         sum                       2+|3+4    true
+6           addition                2+|3+4    true
+7             digit                 2+|3+4    true
+8             /digit      3         2+3|+4    true
+9             sum                   2+3+|4    true
+10              addition            2+3+|4    true
+11                digit             2+3+|4    true
+12                /digit  4         2+3+4|    true
+13                sum               2+3+4|    false
+14                /sum    undefined 2+3+4|    false
+15              /addition NaN       2+3+4|    false
+16              digit               2+3+|4    true
+17              /digit    4         2+3+4|    true
+18            /sum        4         2+3+4|    true
+19          /addition     7         2+3+4|    true
+20        /sum            7         2+3+4|    true
+21      /addition         9         2+3+4|    true
+22    /sum                9         2+3+4|    true
+    </code>
+    <script>
+describe("Right accossiative addition", function() {
+  function CallPrintingRCalculator(expression) {
+    RCalculator.call(this, expression);
+    this.printer = new Printer([
+      "Line", 6,
+      "Parse tree", 20,
+      "result", 10,
+      "position", 10,
+      "parseSuccess", 0
+    ], 2);
+    this.lines = this.printer.printHeaders();
+  }
+  
+  function aspect(methodName) {
+    if(RCalculator.prototype.hasOwnProperty(methodName)){
+      CallPrintingRCalculator.prototype[methodName] = function() {
+        this.lines += this.printer.enter(this, methodName, "");
+        var result = RCalculator.prototype[methodName].call(this);
+        this.lines += this.printer.exit(this, methodName, "", result);
+        return result;
+      }
+    }
+  }
+  
+  for(var methodName in RCalculator.prototype){
+    aspect(methodName);
+  }
+  
+  it("can be implemented with a regular recursive descent parser", function() {
+    callPrintingCalculators.rCalculator = new CallPrintingRCalculator("2+3+4");
+    checkCalls("rCalculator");
+  });
+});
+    </script>
+    <p>
+This is what would happen if we made <code>RCalculator</code> with the current version of <code>rdpl</code>:
+    </p>
+    <code class="example" id="idStackCalls">
+Line  Parse tree      result    position  parseSuccess  stack
+1     sumPM                     |2+3+4    true          {}
+2      sumR                     |2+3+4    true          {sum}
+3       additionPM              |2+3+4    true          {sum}
+4        additionR              |2+3+4    true          {sum, addition}
+5         sumPM                 |2+3+4    true          {sum, addition}
+6         /sumPM      undefined |2+3+4    false         {sum, addition}
+7         digitPM               |2+3+4    false         {sum, addition}
+8          digitR               |2+3+4    false         {sum, addition, digit}
+9          /digitR    2         2|+3+4    false         {sum, addition, digit}
+10        /digitPM    2         2|+3+4    false         {sum, addition}
+11       /additionR   NaN       2|+3+4    false         {sum, addition}
+12      /additionPM   NaN       2|+3+4    false         {sum}
+13      digitPM                 |2+3+4    true          {sum}
+14       digitR                 |2+3+4    true          {sum, digit}
+15       /digitR      2         2|+3+4    true          {sum, digit}
+16      /digitPM      2         2|+3+4    true          {sum}
+17     /sumR          2         2|+3+4    true          {sum}
+18    /sumPM          2         2|+3+4    true          {}
+    </code>
+    <script>
+rdpl.id = 0;
+callPrintingCalculators.idStackCalls = new CallPrintingCalculator("2+3+4",
+["Line", 6, "Parse tree", 16, "result", 10, "position", 10, "parseSuccess", 14, "stack", 0]);
+
+describe("A stack of ids", function() {
+  it("blocks more recursions than necessary", function() {
+    checkCalls("idStackCalls");
+  });
+  
+});
+    </script>
+    <p>
+The stack blocks <code>sum</code> from executing to break the recursion.
+But from the earlier example, we saw that the recursive call to <code>sum</code> wasn't a problem.
+The reason is that the recursive call to <code>sum</code> is made with another value for <code>this.position</code>, 2 instead of 0.
+Clearly, we need to take the position into account when we decide if a call will cause an infinite recursion or not.
+A simple way to do this is to save a combination of the position and the id of the parsing method on the stack.
+The value of <code>this.parseSuccess</code> will also be contained,
+in the form of <code>\t</code> if it is successful and <code>\f</code> if it is failed.
+    </p>
+    <script class="example">
+function rdpl(rule) {
+  var id = rdpl.id++;
+  return function() {
+    var key = this.position + (this.parseSuccess ? "\t":"\f") + id;
+    if(!this.leftRecursionSolver.stack[key]) {
+      this.leftRecursionSolver.stack[key] = true;
+      var result = rule.apply(this);
+      delete this.leftRecursionSolver.stack[key];
+      return result;
+    } else {
+      this.parseSuccess = false;
+    }
+  };
+}
+
+rdpl.id = 0;
+    </script>
+    <script class="example">
+function RdprCalculator(expression) {
+  this.leftRecursionSolver = new LeftRecursionSolver();
+  this.expression = expression;
+  this.position = 0;
+  this.parseSuccess = true;
+}
+
+RdprCalculator.prototype.sum = rdpl(function() {
+  if(this.parseSuccess) {
+    var backtrack = this.position;
+    var result = this.addition();
+    if(!this.parseSuccess) {
+      this.parseSuccess = true;
+      this.position = backtrack;
+      result = this.digit();
+    }
+    return result;
+  }
+});
+
+RdprCalculator.prototype.addition = rdpl(function() {
+  var term1 = this.digit();
+  if(this.expression[this.position] === "+"){
+    this.position++;
+  } else {
+    this.parseSuccess = false;
+  }
+  var term2 = this.sum();
+  return term1 + term2;
+});
+
+RdprCalculator.prototype.digit = rdpl(function() {
+  var digitRegex = new RegExp("0|1|2|3|4|5|6|7|8|9", "yg");
+  digitRegex.lastIndex = this.position;
+  var match = digitRegex.exec(this.expression);
+  if(match && match.index === this.position) {
+    this.position++;
+    return Number(match[0]);
+  } else {
+    this.parseSuccess = false;
+  }
+});
+    </script>
+    <script class="example">
+describe("Recursive calls at new positions", function() {
+  it("are let through", function() {
+    var rdprCalculator = new RdprCalculator("2+3+4");
+    expect(rdprCalculator.sum()).toBe(9);
+  });
+});
+    </script>
+	<p>
+Now the calls look like this:
+	</p>
+	<code class="example">
+Parse tree          position  parseS. stack
+sum                 |2+3+4    true    {0\t sum}
+  addition          |2+3+4    true    {0\t sum, 0\t add}
+    digit           |2+3+4    true    {0\t sum, 0\t add, 0\t dig}
+    /digit          2|+3+4    true    {0\t sum, 0\t add}
+    "+"             2|+3+4    true    {0\t sum, 0\t add}
+    /"+"            2+|3+4    true    {0\t sum, 0\t add}
+    sum             2+|3+4    true    {0\t sum, 0\t add, 2\t sum}
+      addition      2+|3+4    true    {0\t sum, 0\t add, 2\t sum, 2\t add}
+        digit       2+|3+4    true    {0\t sum, 0\t add, 2\t sum, 2\t add, 2\t dig}
+        digit       2+3|+4    true    {0\t sum, 0\t add, 2\t sum, 2\t add}
+        "+"         2+3|+4    true    {0\t sum, 0\t add, 2\t sum, 2\t add}
+        /"+"        2+3+|4    true    {0\t sum, 0\t add, 2\t sum, 2\t add}
+        sum         2+3+|4    true    {0\t sum, 0\t add, 2\t sum, 2\t add, 4\t sum}
+          addition  2+3+|4    true    {0\t sum, 0\t add, 2\t sum, 2\t add, 4\t sum, 4\t add}
+            digit   2+3+|4    true    {0\t sum, 0\t add, 2\t sum, 2\t add, 4\t sum, 4\t add, 4\t dig}
+            /digit  2+3+4|    true    {0\t sum, 0\t add, 2\t sum, 2\t add, 4\t sum, 4\t add}
+            "+"     2+3+4|    true    {0\t sum, 0\t add, 2\t sum, 2\t add, 4\t sum, 4\t add}
+            /"+"    2+3+4|    false   {0\t sum, 0\t add, 2\t sum, 2\t add, 4\t sum, 4\t add}
+            sum     2+3+|4    false   {0\t sum, 0\t add, 2\t sum, 2\t add, 4\t sum, 4\t add, 4\f sum}
+            /sum    2+3+4|    false   {0\t sum, 0\t add, 2\t sum, 2\t add, 4\t sum, 4\t add}
+          addition  2+3+4|    false   {0\t sum, 0\t add, 2\t sum, 2\t add, 4\t sum}
+          digit     2+3+|4    true    {0\t sum, 0\t add, 2\t sum, 2\t add, 4\t sum, 4\t digit}
+          /digit    2+3+4|    true    {0\t sum, 0\t add, 2\t sum, 2\t add, 4\t sum}
+        /sum        2+3+4|    true    {0\t sum, 0\t add, 2\t sum, 2\t add}
+      /addition     2+3+4|    true    {0\t sum, 0\t add, 2\t sum}
+    /sum            2+3+4|    true    {0\t sum, 0\t add}
+  /addition         2+3+4|    true    {0\t sum}
+/sum                2+3+4|    true
+    </code>
+	<h1>Starting the recursion</h1>
+	<p>
+Besides from breaking recursions and detecting base cases,
+the RDPL algorithm relies on the parsing methods to call their <code>rule</code>s many times,
+to also solve the recursion.
+In the calculator example, the parsing method of <code>sum</code> starting at line 1 should run its <code>rule</code> four times,
+on the lines 2, 20 34 and 48.
+However, it is the <code>sum</code> parsing method starting at line 5 that detects the recursion that the parsing method on line 1 should solve.
+Therefore, line 5 will set a property <code>isRecursive</code> to its <code>id</code>.
+Since line 1 has the same <code>id</code>, it will know that it should start the iteration.
+	</p>
+    <script class="example">
+function rdpl(rule) {
+  var id = rdpl.id++;
+  return function() {
+    if(!this.leftRecursionSolver.stack[id]){
+      this.leftRecursionSolver.stack[id] = true;
+      var result = rule.apply(this);
+      if(this.isRecursive === id){
+        var result = rule.apply(this);
+      }
+      delete this.leftRecursionSolver.stack[id];
+      return result;
+    } else {
+      //  Line 6
+    this.isRecursive = id;
+      this.parseSuccess = false;
+    }
+  };
+}
+
+rdpl.id = 0;
+    </script>
+    <code class="example" id="startingCalls">
+Line  Parse tree      result    position  parseSuccess  isRecursive
+1     sumPM                     |2+3+4    true          undefined
+2      sumR                     |2+3+4    true          undefined
+3       additionPM              |2+3+4    true          undefined
+4        additionR              |2+3+4    true          undefined
+5         sumPM                 |2+3+4    true          undefined
+6         /sumPM      undefined |2+3+4    false         sum
+7         digitPM               |2+3+4    false         sum
+8          digitR               |2+3+4    false         sum
+9          /digitR    2         2|+3+4    false         sum
+10        /digitPM    2         2|+3+4    false         sum
+11       /additionR   NaN       2|+3+4    false         sum
+12      /additionPM   NaN       2|+3+4    false         sum
+13      digitPM                 |2+3+4    true          sum
+14       digitR                 |2+3+4    true          sum
+15       /digitR      2         2|+3+4    true          sum
+16      /digitPM      2         2|+3+4    true          sum
+17     /sumR          2         2|+3+4    true          sum
+18     sumR                     2|+3+4    true          sum
+19      additionPM              2|+3+4    true          sum
+20       additionR              2|+3+4    true          sum
+21        sumPM                 2|+3+4    true          sum
+22        /sumPM      undefined 2|+3+4    false         sum
+23        digitPM               2+|3+4    false         sum
+24         digitR               2+|3+4    false         sum
+25         /digitR    3         2+3|+4    false         sum
+26        /digitPM    3         2+3|+4    false         sum
+27       /additionR   NaN       2+3|+4    false         sum
+28      /additionPM   NaN       2+3|+4    false         sum
+29      digitPM                 2|+3+4    true          sum
+30       digitR                 2|+3+4    true          sum
+31       /digitR      undefined 2|+3+4    true          sum
+32      /digitPM      undefined 2|+3+4    true          sum
+33     /sumR          undefined 2|+3+4    true          sum
+34    /sumPM          undefined 2|+3+4    true          sum
+    </code>
+    <script>
+callPrintingCalculators.startingCalls = new CallPrintingCalculator("2+3+4",
+["Line", 6, "Parse tree", 16, "result", 10, "position", 10, "parseSuccess", 14, "isRecursive", 0]);
+
+describe("A parsing method", function() {
+  it("can detect and break recursions", function() {
+    checkCalls("startingCalls");
+  });
+  
+});
+    </script>
+
+    <p>There are clearly things that need improvement in this algorithm,
+    but first some things have to be cleared out regarding recursions.
+    </p>
+	<h1>Iteration 1</h1>
+	<p>
+Now that the recursion detection takes the context into account,
+the main example will continue.
+The position should be reset before the iteration starts.
+	</p>
+	    <code class="example">
+Line  Parse tree      result    position  parseSuccess
+1     sumPM                     |2+3+4    true
+2      sumR                     |2+3+4    true
+3       additionPM              |2+3+4    true
+4        additionR              |2+3+4    true
+5         sumPM                 |2+3+4    true
+6         /sumPM      undefined |2+3+4    false
+7         "+"                   |2+3+4    false
+8         /"+"        n/a       |2+3+4    false
+9         digitPM               |2+3+4    false
+10         digitR               |2+3+4    false
+11         /digitR    2         2|+3+4    false
+12        /digitPM    2         2|+3+4    false
+13       /additionR   NaN       2|+3+4    false
+14      /additionPM   NaN       2|+3+4    false
+15      digitPM                 |2+3+4    true
+16       digitR                 |2+3+4    true
+17       /digitR      2         2|+3+4    true
+18      /digitPM      2         2|+3+4    true
+19     /sumR          2         2|+3+4    true
+(sum iteration 1)
+       sumR                     2|+3+4    true
+        additionPM              2|+3+4    true          sum
+         additionR              2|+3+4    true          sum
+          sumPM                 2|+3+4    true          sum
+6         /sumPM      undefined 2|+3+4    false         sum
+7         "+"                   2|+3+4    false         sum
+8         /"+"        n/a       2+|3+4    false         sum
+9         digitPM               2+|3+4    false         sum
+10         digitR               2+|3+4    false         sum
+11         /digitR    3         2+3|+4    false         sum
+12        /digitPM    3         2+3|+4    false         sum
+13       /additionR   NaN       2+3|+4    false         sum
+14      /additionPM   NaN       2+3|+4    false         sum
+15      digitPM                 |2+3+4    true          sum
+16       digitR                 |2+3+4    true          sum
+17       /digitR      2         2|+3+4    true          sum
+18      /digitPM      2         2|+3+4    true          sum
+19     /sumR          2         2|+3+4    true          sum
+      /sumPM          2         2|+3+4    true          sum
+    </code>
+    <script class="example">
+function rdpl(rule) {
+  var id = rdpl.id++;
+  return function() {
+    var key = this.position + (this.parseSuccess ? "\t":"\f") + id;
+    if(!this.leftRecursionSolver.stack[key]) {
+      this.leftRecursionSolver.stack[key] = true;
+      var result = rule.apply(this);
+      delete this.leftRecursionSolver.stack[key];
+      return result;
+    } else {
+      this.parseSuccess = false;
+    }
+  };
+}
+
+rdpl.id = 0;
+    </script>
+    <script src="Calculator.js"></script>
+  </body>
+</html>
