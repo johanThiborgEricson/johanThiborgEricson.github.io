@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Introduction to Recursion Solver</title>
+    <link rel="shortcut icon" type="image/png" href="../lib/jasmine-3.1.0/jasmine_favicon.png">
+    <link rel="stylesheet" href="../lib/jasmine-3.1.0/jasmine.css">
+    <link rel="stylesheet" href="example.css">
+    <script src="../lib/jasmine-3.1.0/jasmine.js"></script>
+    <script src="../lib/jasmine-3.1.0/jasmine-html.js"></script>
+    <script src="../lib/jasmine-3.1.0/boot.js"></script>
+    
+    <script src="Printer.js"></script>
+    <script src="checkCalls.js"></script>
+    <script src="callPrintingParsers.js"></script>
+  </head>
+  
+  <body>
+    <h1>Recursion Solver</h1>
+    <p>
+Recursion Solver is a minimalistic, memoizing, one pass, JavaScript
+<a
+  target="_blank"
+  href="https://en.wikipedia.org/wiki/Recursive_descent_parser"
+>recursive descent parser</a>
+that supports all kinds of left recursive definitions,
+using an algorithm similar to
+<a
+  target="_blank"
+  href="https://www.google.com/search?q=Packrat+Parsers+Can+Support+Left+Recursion"
+>Packrat Parsers Can Support Left Recursion</a>
+by Alessandro Warth, James R. Douglass and Todd Millstein.
+The one and only thing it does is enhancing functions with memoization
+and the ability to solve recursive calls between them,
+thereby making a recursive descent parser
+able to support left recursive definitions.
+Those functions are the
+<a
+  target="_blank"
+  href="https://en.wikipedia.org/wiki/Production_(computer_science)"
+>production rules</a> of a Recursion Solver parser,
+where languages are defined using running code,
+rather than an internal language or data structure specific to the library,
+as in most other parsers.
+A Recursion Solver rule may accept arguments, return any value, and
+parse any type of input, such as strings, symbols or even byte streams.
+    </p>
+    <p>
+While this approach requires
+<a href="#calculatorExample">quite a lot of boilerplate code</a>
+to do anything useful, it is very flexible and lightweight.
+It allows for relatively easy definition of languages
+that are hard or impossible to describe using regular CFGs or PEGs.
+Besides, examples of how to implement more compact PEG-style definitions
+on top of Recursion Solver will soon be written.
+Although Recursion Solver doesn't natively support any advanced techniques
+such as GLR parsing of very ambiguous languages, attribute grammars,
+incremental parsing, dynamic asynchronous loading of rules or
+language specification files,
+algorithms for these features might be possible to implement
+on top of Recursion Solver.
+But I can't guarantee it because I haven't tried it yet.
+    </p>
+    <p>
+While this library was written mainly with parsing in mind,
+it might be flexible enough to be used in
+other applications that need to solve recursive function calls,
+such as set, graph or dynamic programming algorithms.
+    </p>
+    <p>
+The API of Recursion Solver is the single method
+<code>recursionSolver.solve(key, progress, f, args, thisBinding)</code>,
+where <code>args = arg0, arg1, ... argN</code>
+are the arguments to pass to the function
+<code>f(arg0, arg1, ... argN)</code>.
+Its implementation is quite complicated,
+but its observable behavior only has two variants.
+If the rule parses successfully, it will return
+the result of some call to
+<code>f.apply(thisBinding, args)</code>.
+This is equivalent to calling
+<code>thisBinding.f(arg0, arg1, ... argN)</code>,
+if <code>f</code> was a method named f on <code>thisBinding</code>.
+If the parsing has failed, it might return the result of calling
+<code>progress.onRecursion.apply(progress, args)</code>,
+which is equivalent of calling
+<code>progress.onRecursion(arg0, arg1, ... argN)</code>.
+This means that once the calling code has checked if the parsing was successfull,
+it might use the result of <code>solve</code> as if it was
+the result of calling <code>f</code>,
+but with any recursive calls solved.
+    </p>
+    <p>
+The <code>key</code> parameter is a string that should uniquely identify
+anything that might influence the execution of <code>f</code>.
+It should at least contain information about
+the parsers current position in the input,
+and what rule <code>f</code> is.
+Soon, an example will be written that describes how to genereate such keys
+easily and efficiently using tree structures of JavaScript maps.
+The <code>progress</code> parameter is an object with functions that
+describes the interaction needed between Recursion Solver and the
+parser to solve recursions.
+Normally, it is practical to pass the parser object itself as
+<code>progress</code>.
+    </p>
+    <h1>Usage Example</h1>
+    <p>
+As usual in parsing, a simple calculator will be used as example.
+This calculator accepts strings with additions of digits as input.
+The rules have been implemented in their canonical form,
+for pedagogic reasons.
+Therefore, it has a sum rule acting as an alternative,
+or prioritized choice in PEG terms,
+and an addition rule acting as a sequence.
+    </p>
+    <p>
+If the rules had been defined without using the recursion solver,
+<code>sum</code> would set its backtrack position
+and call <code>addition</code>.
+Then <code>addition</code> would call <code>sum</code>.
+Then, <code>sum</code> would once more call <code>addition</code>,
+and the execution would be stuck with unlimited calls back and forth between
+<code>sum, addition, sum, addition, sum, addition, ...</code>
+until the stack is full.
+But <code>recursionSolver.solve</code> will solve that recursion and run
+the rules of <code>sum</code> and <code>addition</code>
+on that solution instead.
+    </p>
+    <script class="example" id="calculatorExample">
+function parsingMethod(rule, name) {
+  return function() {
+    var key = this.makeKey(name);
+    var rs = this.recursionSolver;
+    return rs.solve(key, this, rule, [], this);
+  };
+  
+}
+
+function Calculator(expression)  {
+  this.recursionSolver = new RecursionSolver();
+  this.expression = expression;
+  this.position = 0;
+  this.parseSuccess = true;
+}
+
+Calculator.prototype.sum = parsingMethod(function() {
+  var backtrack = this.position;
+  var result = this.addition();
+  if(!this.parseSuccess) {
+    this.parseSuccess = true;
+    this.position = backtrack;
+    result = this.digit();
+  }
+  return result;
+}, "sum");
+
+Calculator.prototype.addition = parsingMethod(function() {
+  var term1 = this.sum();
+  if(this.expression[this.position] === "+"){
+    this.position++;
+  }
+  var term2 = this.digit();
+  return term1 + term2;
+}, "add");
+
+Calculator.prototype.digit = parsingMethod(function() {
+  var result;
+  var digitRegex = new RegExp("0|1|2|3|4|5|6|7|8|9", "yg");
+  digitRegex.lastIndex = this.position;
+  var match = digitRegex.exec(this.expression);
+  if(match && match.index === this.position) {
+    this.position++;
+    result = Number(match[0]);
+  }
+  return result;
+}, "dig");
+
+Calculator.prototype.makeKey = function(name) {
+  return name + this.position + (this.parseSuccess ? "t" : "f");
+};
+
+Calculator.prototype.backup = function() {
+  return {
+    position: this.position,
+    parseSuccess: this.parseSuccess,
+  };
+  
+};
+
+Calculator.prototype.restore = function(backup) {
+  this.position = backup.position;
+  this.parseSuccess = backup.parseSuccess;
+};
+
+Calculator.prototype.memoize = Calculator.prototype.backup;
+
+Calculator.prototype.recall = Calculator.prototype.restore;
+
+Calculator.prototype.doIterate = function() {
+  return this.parseSuccess;
+};
+
+Calculator.prototype.hasProgressed = function(backup) {
+  return this.parseSuccess && (this.position > backup.position);
+};
+
+Calculator.prototype.onRecursion = function() {
+  this.parseSuccess = false;
+};
+
+describe("Recursion Solver", function() {
+  it("solves left recursions in the rules", function() {
+    var calculator = new Calculator("2+3+4");
+    expect(calculator.sum()).toBe(9);
+  });
+  
+});
+    </script>
+    <p>
+The <code>parsingMethod</code> function illustrates the recomended way of
+using Recursion Solver by accepting a rule function,
+and returning a parsing method function, that can solve recursions.
+This way, the rule function will be created only once,
+instead of in each call, as it would in conceptually simpler solutions.
+This is not just an optimization;
+it does also allow for more clever ways of producing keys,
+than to pass their names explicitly, as in this example.
+    </p>
+    <p>
+Besides that, <code>parsingMethod</code> does also produce a key,
+with the help of <code>calculator.makeKey</code>.
+The keys are central to the functionallity of all parts of Recursion Solver,
+so it is very important that they ar produced in a correct way.
+In essence, a key should represent everything that might influence the
+observable behavior of <code>f</code>, both its result and its side effects.
+    </p>
+    <h1>Breaking the recursion</h1>
+    <p>
+Recursion solver detects and breaks recursions by keeping track of the keys
+of all rules that are currently on the stack.
+The stack is represented as an object with <code>null</code> as its prototype,
+which means that it has no inherited attributes.
+Therefore, <code>stack[key]</code> will initially evaluate to
+<code>undefined</code> for any string <code>key</code>.
+Before a rule is run, its key is added to the stack by setting
+<code>stack[key] = true</code>.
+When the rule is finished, <code>delete stack[key]</code>
+is used to remove it from the stack.
+Since <code>undefined</code> is treated as <code>false</code>,
+the <code>stack</code> can be used in a if-clause:
+    <code class="example">
+if(stack[key]){
+  // key is on stack
+} else {
+  // key is not on stack
+}
+    </code>
+    <p>
+To start with, <code>solve</code> will do nothing if the key is on the stack,
+just to break the recursion.
+    </p>
+    <script class="example">
+function RecursionSolver() {
+  this.stack = Object.create(null);
+}
+
+RecursionSolver.prototype.solve = function(key, progress, f, args, thisBinding) {
+  var result;
+  if(this.stack[key]){
+    //  Do not recurse
+  } else {
+    this.stack[key] = true;
+    result = f.apply(thisBinding, args);
+    delete this.stack[key];
+  }
+  return result;
+};
+    </script>
+    <p>
+Below is a representation of the calls that are made.
+Entering a method is indicated by "\" and exiting it with "/"
+Most keys are entered twice, like <code>sum0t</code> on line 1 and 2.
+This is because both parsing methods and rules are printed.
+    </p>
+    <code class="example" id="breakRecursion">
+Line  Parse tree      result    position  parseSuccess  stack
+1     \sum0t                    |2+3+4    true          {}
+2      \sum0t                   |2+3+4    true          {sum0t}
+3       \add0t                  |2+3+4    true          {sum0t}
+4        \add0t                 |2+3+4    true          {sum0t, add0t}
+5         \sum0t                |2+3+4    true          {sum0t, add0t}
+6         /sum0t      undefined |2+3+4    true          {sum0t, add0t}
+7         \dig0t                |2+3+4    true          {sum0t, add0t}
+8          \dig0t               |2+3+4    true          {sum0t, add0t, dig0t}
+9          /dig0t     2         2|+3+4    true          {sum0t, add0t, dig0t}
+10        /dig0t      2         2|+3+4    true          {sum0t, add0t}
+11       /add0t       NaN       2|+3+4    true          {sum0t, add0t}
+12      /add0t        NaN       2|+3+4    true          {sum0t}
+13     /sum0t         NaN       2|+3+4    true          {sum0t}
+14    /sum0t          NaN       2|+3+4    true          {}
+    </code>
+    <script>
+callPrintingParsers.add("breakRecursion", [
+  "Line", 6,
+  "Parse tree", 16,
+  "result", 10,
+  "position", 10,
+  "parseSuccess", 14,
+  "stack", 0
+], new Calculator("2+3+4"));
+
+describe("A parsing method", function() {
+  it("can detect and break recursions", function() {
+    checkCalls("breakRecursion", "sum");
+  });
+  
+});
+    </script>
+    <p>
+On line 5, the parsing method of <code>sum</code>
+detects that it is already on the stack,
+so it doesn't call its rule.
+Thus, the recursion is broken,
+but the <code>result</code> variable is never set,
+so sum returns <code>undefined</code> on line 6.
+Then, the addition rule from line 4 fails to read a plus sign,
+and calls digit, that succeeds to read 2, on line 9.
+The addition rule from line 4 adds <code>undefined</code> to 2 and returns the
+result <code>NaN</code> on line 11, because this is JavaScript.
+Since <code>parseSuccess == true</code>, the sum rule from line 2
+also returns <code>NaN</code>, and this is the final result.
+    </p>
+    <p>
+It would be better if the final result was 2.
+This is why <code>progress.onRecursion</code> should fail the parser.
+If it is called when the recursion is detected,
+the calls would go like this instead:
+    </p>
+    <script class="example">
+RecursionSolver.prototype.solve = function(key, progress, f, args, thisBinding) {
+  var result;
+  if(this.stack[key]){
+    progress.onRecursion();
+  } else {
+    this.stack[key] = true;
+    result = f.apply(thisBinding, args);
+    delete this.stack[key];
+  }
+  return result;
+};
+    </script>
+    <code class="example" id="zerothCalls">
+Line  Parse tree      result    position  parseSuccess
+1     \sum0t                    |2+3+4    true
+2      \sum0t                   |2+3+4    true
+3       \add0t                  |2+3+4    true
+4        \add0t                 |2+3+4    true
+5         \sum0t                |2+3+4    true
+6         /sum0t      undefined |2+3+4    false
+7         \dig0f                |2+3+4    false
+8          \dig0f               |2+3+4    false
+9          /dig0f     2         2|+3+4    false
+10        /dig0f      2         2|+3+4    false
+11       /add0t       NaN       2|+3+4    false
+12      /add0t        NaN       2|+3+4    false
+13      \dig0t                  |2+3+4    true
+14       \dig0t                 |2+3+4    true
+15       /dig0t       2         2|+3+4    true
+16      /dig0t        2         2|+3+4    true
+17     /sum0t         2         2|+3+4    true
+18    /sum0t          2         2|+3+4    true
+    </code>
+    <p>
+Now, the sum rule from line 2 detects that
+the addition from line 3 has failed,
+because sum from line 5 has set <code>parseSuccess = false</code>
+by calling <code>progress.onRecursion</code>.
+Since parsing of the addition is reported as failed,
+the sum rule from line 2 will try and succeed to parse the digit 2 instead,
+on the lines 13 to 16.
+Then 2 is returned as the final result.
+    </p>
+    <script>
+callPrintingParsers.add("zerothCalls", [
+  "Line", 6,
+  "Parse tree", 16,
+  "result", 10,
+  "position", 10,
+  "parseSuccess", 0
+], new Calculator("2+3+4"));
+
+describe("A parsing method", function() {
+  it("can parse the first digit", function() {
+    checkCalls("zerothCalls", "sum");
+  });
+  
+});
+    </script>
+    <h1>Iterating on the base case</h1>
+    <p>
+In this step, the <code>solve</code> algorithm
+will be modified so that it parses <code>2+3</code> and returns 5.
+This is done by letting the sum parsing method from line 1
+memoize the result 2 on line 17, and then calling its rule again.
+Then, the sum parsing method on line 5 will successfully return 2 on line 6,
+and the addition rule will return 5.
+    </p>
+    <p>
+The mechanism for making the sum parsing method calling its rule again
+will be implemented first.
+To do this, the sum parsing method from line 5 needs to tell
+the sum parsing method from line 1 that it should recurse.
+This is done using a string property <code>isRecursive</code>.
+    </p>
+    <p>
+A variable backtrack is also created using <code>progress.backup</code>
+so that the iteration will start from the same position in the code,
+using <code>progress.recall</code>.
+    </p>
+    <script class="example">
+RecursionSolver.prototype.solve = function(key, progress, f, args, thisBinding) {
+  var result;
+  if(this.stack[key]){
+    //  Line 6
+    this.isRecursive = key;
+    progress.onRecursion();
+  } else {
+    var backtrack = progress.backup();
+    this.stack[key] = true;
+    result = f.apply(thisBinding, args);
+    if(this.isRecursive === key){
+      progress.restore(backtrack);
+      result = f.apply(thisBinding, args);
+    }
+    delete this.stack[key];
+  }
+  return result;
+};
+    </script>
+    <code class="example" id="startingCalls">
+Line  Parse tree      result    position  parseSuccess  isRecursive
+1     \sum0t                    |2+3+4    true          undefined
+2      \sum0t                   |2+3+4    true          undefined
+3       \add0t                  |2+3+4    true          undefined
+4        \add0t                 |2+3+4    true          undefined
+5         \sum0t                |2+3+4    true          undefined
+6         /sum0t      undefined |2+3+4    false         sum0t
+7         \dig0f                |2+3+4    false         sum0t
+8          \dig0f               |2+3+4    false         sum0t
+9          /dig0f     2         2|+3+4    false         sum0t
+10        /dig0f      2         2|+3+4    false         sum0t
+11       /add0t       NaN       2|+3+4    false         sum0t
+12      /add0t        NaN       2|+3+4    false         sum0t
+13      \dig0t                  |2+3+4    true          sum0t
+14       \dig0t                 |2+3+4    true          sum0t
+15       /dig0t       2         2|+3+4    true          sum0t
+16      /dig0t        2         2|+3+4    true          sum0t
+17     /sum0t         2         2|+3+4    true          sum0t
+18     \sum0t                   |2+3+4    true          sum0t
+19      \add0t                  |2+3+4    true          sum0t
+20       \add0t                 |2+3+4    true          sum0t
+21        \sum0t                |2+3+4    true          sum0t
+22        /sum0t      undefined |2+3+4    false         sum0t
+23        \dig0f                |2+3+4    false         sum0t
+24         \dig0f               |2+3+4    false         sum0t
+25         /dig0f     2         2|+3+4    false         sum0t
+26        /dig0f      2         2|+3+4    false         sum0t
+27       /add0t       NaN       2|+3+4    false         sum0t
+28      /add0t        NaN       2|+3+4    false         sum0t
+29      \dig0t                  |2+3+4    true          sum0t
+30       \dig0t                 |2+3+4    true          sum0t
+31       /dig0t       2         2|+3+4    true          sum0t
+32      /dig0t        2         2|+3+4    true          sum0t
+33     /sum0t         2         2|+3+4    true          sum0t
+34    /sum0t          2         2|+3+4    true          sum0t
+    </code>
+    <script>
+callPrintingParsers.add("startingCalls", [
+  "Line", 6,
+  "Parse tree", 16,
+  "result", 10,
+  "position", 10,
+  "parseSuccess", 14,
+  "isRecursive", 0
+], new Calculator("2+3+4"));
+
+describe("A parsing method", function() {
+  it("can start the recursion", function() {
+    checkCalls("startingCalls", "sum");
+  });
+  
+});
+    </script>
+    <p>
+Now, the algorithm does the exact same thing twice.
+In order for it to parse <code>2+3</code>,
+the sum parsing method from line 21 should return
+the memoized result that the sum rule from line 2 returns on line 17,
+that is, 2.
+A map <code>memo</code> with similar implementation as <code>stack</code>
+will be used.
+    </p>
+    <script class="example">
+function RecursionSolver() {
+  this.stack = Object.create(null);
+  this.memo = Object.create(null);
+}
+
+RecursionSolver.prototype.solve = function(key, progress, f, args, thisBinding) {
+  var result;
+  if(this.memo[key]){
+    result = this.memo[key].result;
+    progress.recall(this.memo[key].progress);
+  } else {
+    if(this.stack[key]){
+
+      this.isRecursive = key;
+      progress.onRecursion();
+    } else {
+      var backtrack = progress.backup();
+      this.stack[key] = true;
+      result = f.apply(thisBinding, args);
+      this.memo[key] = {
+        progress: progress.memoize(),
+        result: result,
+      };
+      
+      if(this.isRecursive === key){
+        progress.restore(backtrack);
+        result = f.apply(thisBinding, args);
+      }
+      delete this.stack[key];
+    }
+  }
+  return result;
+};
+    </script>
+    <code class="example" id="noListCalls">
+Line  Parse tree      result    position  memo
+1     \sum0t                    |2+3+4
+2      \sum0t                   |2+3+4
+3       \add0t                  |2+3+4
+4        \add0t                 |2+3+4
+5         \sum0t                |2+3+4
+6         /sum0t      undefined |2+3+4
+7         \dig0f                |2+3+4
+8          \dig0f               |2+3+4
+9          /dig0f     2         2|+3+4
+10        /dig0f      2         2|+3+4    2
+11       /add0t       NaN       2|+3+4
+12      /add0t        NaN       2|+3+4    NaN
+13      \dig0t                  |2+3+4
+14       \dig0t                 |2+3+4
+15       /dig0t       2         2|+3+4
+16      /dig0t        2         2|+3+4    2
+17     /sum0t         2         2|+3+4
+18     \sum0t                   |2+3+4
+19      \add0t                  |2+3+4    NaN
+20      /add0t        NaN       2|+3+4    NaN
+21      \dig0t                  |2+3+4    2
+22      /dig0t        2         2|+3+4    2
+23     /sum0t         2         2|+3+4
+24    /sum0t          2         2|+3+4    2
+    </code>
+    <script>
+callPrintingParsers.add("noListCalls", [
+  "Line", 6,
+  "Parse tree", 16,
+  "result", 10,
+  "position", 10,
+  "memo", 0
+], new Calculator("2+3+4"));
+
+describe("A parsing method", function() {
+  it("might block a recursion with its memoized value", function() {
+    checkCalls("noListCalls", "sum");
+  });
+  
+});
+    </script>
+    <p>
+This is worse than before.
+Instead of sum supplying the 2
+as a base case for the addition in the second iteration,
+the addition parsing method returns <code>NaN</code> on line 20
+without evaluating its rule.
+This is because the addition parsing method from line 3
+has set <code>memo["add0t"].result = NaN</code>,
+so this is what the addition parsing method from line 19 will return.
+    </p>
+    <p>
+In the normal case, this would be the desired behavior,
+but in iterations, sometimes the memoized result should be ignored.
+This can be solved if the addition maintains
+a list in its memo-record of keys to let through,
+by looking at <code>isRecursive</code>.
+    </p>
+    <script class="example">
+function RecursionSolver() {
+  this.stack = Object.create(null);
+  this.memo = Object.create(null);
+}
+
+RecursionSolver.prototype.solve = function(key, progress, f, args, thisBinding) {
+  var result;
+  if(this.memo[key]){
+    if(this.memo[key].list === this.isRecursive){
+      result = f.apply(thisBinding, args);
+    } else {
+      result = this.memo[key].result;
+      progress.recall(this.memo[key].progress);
+    }
+  } else {
+    if(this.stack[key]){
+
+      this.isRecursive = key;
+      progress.onRecursion();
+    } else {
+      var backtrack = progress.backup();
+      this.stack[key] = true;
+      result = f.apply(thisBinding, args);
+      this.memo[key] = {
+        result: result,
+        progress: progress.memoize(),
+      };
+      
+      if(this.isRecursive === key){
+        progress.restore(backtrack);
+        result = f.apply(thisBinding, args);
+      } else {
+        this.memo[key].list = this.isRecursive;
+      }
+      
+      delete this.stack[key];
+    }
+  }
+  return result;
+};
+    </script>
+    <code class="example" id="stringListCalls">
+Line  Parse tree      result    position  memo
+1     \sum0t                    |2+3+4
+2      \sum0t                   |2+3+4
+3       \add0t                  |2+3+4
+4        \add0t                 |2+3+4
+5         \sum0t                |2+3+4
+6         /sum0t      undefined |2+3+4
+7         \dig0f                |2+3+4
+8          \dig0f               |2+3+4
+9          /dig0f     2         2|+3+4
+10        /dig0f      2         2|+3+4    2
+11       /add0t       NaN       2|+3+4
+12      /add0t        NaN       2|+3+4    NaN
+13      \dig0t                  |2+3+4
+14       \dig0t                 |2+3+4
+15       /dig0t       2         2|+3+4
+16      /dig0t        2         2|+3+4    2
+17     /sum0t         2         2|+3+4
+18     \sum0t                   |2+3+4
+19      \add0t                  |2+3+4    NaN
+20       \add0t                 |2+3+4
+21        \sum0t                |2+3+4    2
+22        /sum0t      2         2|+3+4    2
+23        \dig2t                2+|3+4
+24         \dig2t               2+|3+4
+25         /dig2t     3         2+3|+4
+26        /dig2t      3         2+3|+4    3
+27       /add0t       5         2+3|+4
+28      /add0t        5         2+3|+4    NaN
+29     /sum0t         5         2+3|+4
+30    /sum0t          5         2+3|+4    2
+    </code>
+    <script>
+callPrintingParsers.add("stringListCalls", [
+  "Line", 6,
+  "Parse tree", 16,
+  "result", 10,
+  "position", 10,
+  "memo", 0
+], new Calculator("2+3+4"));
+
+describe("A parsing method that is part of another parsing methods recursion",
+function() {
+  it("will let that recursion through", function() {
+    checkCalls("stringListCalls", "sum");
+  });
+  
+});
+    </script>
+    <h1>The last iteration</h1>
+    <p>
+To generalize the algorithm to accept any number of additions,
+it must contain a loop.
+The loop will call the rule as long as it is able to successfully parse
+more than it did in the former iteration.
+This is checked by calling <code>progress.hasProgressed</code>
+    </p>
+    <p>
+Then the algorithm will return the second-to-last result.
+    </p>
+    <script class="example">
+function RecursionSolver() {
+  this.stack = Object.create(null);
+  this.memo = Object.create(null);
+}
+
+RecursionSolver.prototype.solve = function(key, progress, f, args, thisBinding) {
+  var result;
+  if(this.memo[key]){
+    if(this.memo[key].list === this.isRecursive){
+      result = f.apply(thisBinding, args);
+    } else {
+      result = this.memo[key].result;
+      progress.recall(this.memo[key].progress);
+    }
+  } else {
+    if(this.stack[key]){
+
+      this.isRecursive = key;
+      progress.onRecursion();
+    } else {
+      var backtrack = progress.backup();
+      this.stack[key] = true;
+      result = f.apply(thisBinding, args);
+      this.memo[key] = {
+        result: result,
+        progress: progress.memoize(),
+      };
+      
+      if(this.isRecursive === key){
+        var hasProgressed = true;
+        while(hasProgressed){
+          progress.restore(backtrack);
+          var lastResult = f.apply(thisBinding, args);
+          if(progress.hasProgressed(this.memo[key].progress)){
+            this.memo[key].result = lastResult;
+            this.memo[key].progress = progress.memoize();
+          } else {
+            result = this.memo[key].result;
+            progress.recall(this.memo[key].progress);
+            hasProgressed = false;
+          }
+        }
+      } else {
+        this.memo[key].list = this.isRecursive;
+      }
+      
+      delete this.stack[key];
+    }
+  }
+  return result;
+};
+    </script>
+    <code class="example" id="loopCalls">
+Line  Parse tree      result    position  memo
+1     \sum0t                    |2+3+4
+2      \sum0t                   |2+3+4
+3       \add0t                  |2+3+4
+4        \add0t                 |2+3+4
+5         \sum0t                |2+3+4
+6         /sum0t      undefined |2+3+4
+7         \dig0f                |2+3+4
+8          \dig0f               |2+3+4
+9          /dig0f     2         2|+3+4
+10        /dig0f      2         2|+3+4    2
+11       /add0t       NaN       2|+3+4
+12      /add0t        NaN       2|+3+4    NaN
+13      \dig0t                  |2+3+4
+14       \dig0t                 |2+3+4
+15       /dig0t       2         2|+3+4
+16      /dig0t        2         2|+3+4    2
+17     /sum0t         2         2|+3+4
+18     \sum0t                   |2+3+4
+19      \add0t                  |2+3+4    NaN
+20       \add0t                 |2+3+4
+21        \sum0t                |2+3+4    2
+22        /sum0t      2         2|+3+4    2
+23        \dig2t                2+|3+4
+24         \dig2t               2+|3+4
+25         /dig2t     3         2+3|+4
+26        /dig2t      3         2+3|+4    3
+27       /add0t       5         2+3|+4
+28      /add0t        5         2+3|+4    NaN
+29     /sum0t         5         2+3|+4
+30     \sum0t                   |2+3+4
+31      \add0t                  |2+3+4    NaN
+32       \add0t                 |2+3+4
+33        \sum0t                |2+3+4    5
+34        /sum0t      5         2+3|+4    5
+35        \dig4t                2+3+|4
+36         \dig4t               2+3+|4
+37         /dig4t     4         2+3+4|
+38        /dig4t      4         2+3+4|    4
+39       /add0t       9         2+3+4|
+40      /add0t        9         2+3+4|    NaN
+41     /sum0t         9         2+3+4|
+42     \sum0t                   |2+3+4
+43      \add0t                  |2+3+4    NaN
+44       \add0t                 |2+3+4
+45        \sum0t                |2+3+4    9
+46        /sum0t      9         2+3+4|    9
+47        \dig5t                2+3+4|
+48         \dig5t               2+3+4|
+49         /dig5t     undefined 2+3+4|
+50        /dig5t      undefined 2+3+4|    undefined
+51       /add0t       NaN       2+3+4|
+52      /add0t        NaN       2+3+4|    NaN
+53     /sum0t         NaN       2+3+4|
+54    /sum0t          9         2+3+4|    9
+    </code>
+    <script>
+callPrintingParsers.add("loopCalls1", [
+  "Line", 6,
+  "Parse tree", 16,
+  "result", 10,
+  "position", 10,
+  "memo", 0
+], new Calculator("2+3+4"));
+
+describe("A parsing method that is part of another parsing methods recursion",
+function() {
+  it("loop calls", function() {
+    callPrintingParsers.loopCalls = callPrintingParsers.loopCalls1;
+    checkCalls("loopCalls", "sum");
+  });
+  
+});
+    </script>
+    <p>
+While this code solves the initial acceptance test,
+there are more complex languages.
+Fortunatelly, the only thing needed to make RPDL work as expected
+is to add support for detecting many recursive definitions.
+This can be done by making <code>isRecursive</code> a hashset of strings.
+Then, it can't be used to see if it is on a parsing methods list,
+so a new property <code>currentRecursion</code> will be introduced.
+    </p>
+    <script class="example">
+function RecursionSolver() {
+  this.stack = Object.create(null);
+  this.memo = Object.create(null);
+  this.isRecursive = Object.create(null);
+  this.currentRecursion = "";
+}
+
+RecursionSolver.prototype.solve = function(key, progress, f, args, thisBinding) {
+  var result;
+  if(this.memo[key]){
+    if(this.memo[key].list[this.currentRecursion]){
+      result = f.apply(thisBinding, args);
+    } else {
+      result = this.memo[key].result;
+      progress.recall(this.memo[key].progress);
+    }
+  } else {
+    if(this.stack[key]){
+      this.isRecursive[key] = true;
+      progress.onRecursion();
+    } else {
+      var backtrack = progress.backup();
+      this.stack[key] = true;
+      result = f.apply(thisBinding, args);
+      this.memo[key] = {
+        progress: progress.memoize(),
+        result: result,
+        list: Object.create(null),
+      };
+      
+      if(this.isRecursive[key]){
+        this.currentRecursion = key;
+        var hasProgressed = true;
+        while(hasProgressed){
+          progress.restore(backtrack);
+          var lastResult = f.apply(thisBinding, args);
+          if(progress.hasProgressed(this.memo[key].progress)){
+            this.memo[key].progress = progress.memoize();
+            this.memo[key].result = lastResult;
+          } else {
+            result = this.memo[key].result;
+            progress.recall(this.memo[key].progress);
+            hasProgressed = false;
+          }
+        }
+      } else {
+        Object.assign(this.memo[key].list, this.isRecursive);
+      }
+      delete this.stack[key];
+    }
+  }
+  return result;
+};
+    </script>
+    <script>
+callPrintingParsers.add("loopCalls2", [
+  "Line", 6,
+  "Parse tree", 16,
+  "result", 10,
+  "position", 10,
+  "memo", 0
+], new Calculator("2+3+4"));
+
+describe("A parsing method", function() {
+  it("can be part of many recursions", function() {
+    callPrintingParsers.loopCalls = callPrintingParsers.loopCalls2;
+    checkCalls("loopCalls", "sum");
+  });
+  
+});
+    </script>
+    <h1>Memoizing addition</h1>
+    <p>
+So far, calls to addition has not been memoized.
+    </p>
+    <script class="example">
+RecursionSolver.prototype.solve = function(key, progress, f, args, thisBinding) {
+  var result;
+  if(this.memo[key]){
+    if(this.memo[key].list[this.currentRecursion]){
+      result = f.apply(thisBinding, args);
+      if(progress.hasProgressed(this.memo[key].progress)){
+        this.memo[key].progress = progress.memoize();
+        this.memo[key].result = result;
+      }
+    } else {
+      result = this.memo[key].result;
+      progress.recall(this.memo[key].progress);
+    }
+  } else {
+    if(this.stack[key]){
+      this.isRecursive[key] = true;
+      progress.onRecursion();
+    } else {
+      var backtrack = progress.backup();
+      this.stack[key] = true;
+      result = f.apply(thisBinding, args);
+      this.memo[key] = {
+        progress: progress.memoize(),
+        result: result,
+        list: Object.create(null),
+      };
+      
+      if(this.isRecursive[key]){
+        this.currentRecursion = key;
+        var hasProgressed = true;
+        while(hasProgressed){
+          progress.restore(backtrack);
+          var lastResult = f.apply(thisBinding, args);
+          if(progress.hasProgressed(this.memo[key].progress)){
+            this.memo[key].progress = progress.memoize();
+            this.memo[key].result = lastResult;
+          } else {
+            result = this.memo[key].result;
+            progress.recall(this.memo[key].progress);
+            hasProgressed = false;
+          }
+        }
+      } else {
+        Object.assign(this.memo[key].list, this.isRecursive);
+      }
+      delete this.stack[key];
+    }
+  }
+  return result;
+};
+    </script>
+    <code class="example" id="memoAddCalls">
+Line  Parse tree      result    position  memo
+1     \sum0t                    |2+3
+2      \sum0t                   |2+3
+3       \add0t                  |2+3
+4        \add0t                 |2+3
+5         \sum0t                |2+3
+6         /sum0t      undefined |2+3
+7         \dig0f                |2+3
+8          \dig0f               |2+3
+9          /dig0f     2         2|+3
+10        /dig0f      2         2|+3      2
+11       /add0t       NaN       2|+3
+12      /add0t        NaN       2|+3      NaN
+13      \dig0t                  |2+3
+14       \dig0t                 |2+3
+15       /dig0t       2         2|+3
+16      /dig0t        2         2|+3      2
+17     /sum0t         2         2|+3
+18     \sum0t                   |2+3
+19      \add0t                  |2+3      NaN
+20       \add0t                 |2+3
+21        \sum0t                |2+3      2
+22        /sum0t      2         2|+3      2
+23        \dig2t                2+|3
+24         \dig2t               2+|3
+25         /dig2t     3         2+3|
+26        /dig2t      3         2+3|      3
+27       /add0t       5         2+3|
+28      /add0t        5         2+3|      5
+29     /sum0t         5         2+3|
+30     \sum0t                   |2+3
+31      \add0t                  |2+3      5
+32       \add0t                 |2+3
+33        \sum0t                |2+3      5
+34        /sum0t      5         2+3|      5
+35        \dig3t                2+3|
+36         \dig3t               2+3|
+37         /dig3t     undefined 2+3|
+38        /dig3t      undefined 2+3|      undefined
+39       /add0t       NaN       2+3|
+40      /add0t        NaN       2+3|      5
+41     /sum0t         NaN       2+3|
+42    /sum0t          5         2+3|      5
+    </code>
+    <script>
+callPrintingParsers.add("memoAddCalls", [
+  "Line", 6,
+  "Parse tree", 16,
+  "result", 10,
+  "position", 10,
+  "memo", 0
+], new Calculator("2+3"));
+
+describe("A parsing method that is part of another parsing methods recursion",
+function() {
+  it("loop calls", function() {
+    checkCalls("memoAddCalls", "sum");
+  });
+  
+});
+    </script>
+  </body>
+</html>
