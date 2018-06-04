@@ -56,6 +56,36 @@ depending on if <code>this.isRecursive[key]</code> is true,
 and the return value of <code>progress.doIterate()</code>
 and <code>progress.hasProgressed()</code>.
     </p>
+    <p>
+The execution of a function is represented as an array.
+Strings in the array indicates that the function calls
+a method of that name.
+The method, in turn, calls <code>recursionSolver.solve</code>
+with the string as key.
+Array-typed elements following the string represents the execution of
+the function passed to <code>recursionSolver.solve</code>.
+To be able to test the algorithm thoroughly,
+the function will behave very differently for each call,
+and not behave the same as is normally expected.
+More precisely, a function will call different methods each call.
+    </p>
+    <p>
+For example, [a, []] means that the method a is called,
+and when its function is run, it does nothing,
+as indicated by the empty array after the a.
+[a, [], a] means that the a-method is called twice,
+but its function is only run the first time
+(since its memoized value is used instead the second call).
+If a method detects recursion, it might run its function twice,
+like so [a, [a], []].
+Here, the a functions calls the a method.
+To break the recursion,
+the function of the inner method call is not called.
+Then the outer a method detects that it has called itself recursively,
+so it calls it rule again, as indicated by the second array element.
+To save place, the function has been defined to do nothing
+the second time it is called, so the array is empty.
+    </p>
     <table>
       <thead>
         <tr>
@@ -66,6 +96,7 @@ and <code>progress.hasProgressed()</code>.
           <td>isRecursive</td>
           <td>doIterate</td>
           <td>hasProgressed</td>
+          <td>Reachable by</td>
         </tr>
       </thead>
       <tr>
@@ -76,39 +107,14 @@ and <code>progress.hasProgressed()</code>.
         <td></td>
         <td></td>
         <td></td>
-      </tr>
-      <tr>
-        <td>undefined</td>
-        <td></td>
-        <td>true</td>
-        <td>true</td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>{}</td>
-        <td>true</td>
-        <td>true</td>
-        <td>true</td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>{}</td>
-        <td>undefined</td>
-        <td>undefined</td>
-        <td>true</td>
-        <td></td>
-        <td></td>
         <td></td>
       </tr>
       <tr>
         <td>undefined</td>
         <td></td>
-        <td>undefined</td>
         <td>true</td>
+        <td>true</td>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
@@ -116,35 +122,9 @@ and <code>progress.hasProgressed()</code>.
       <tr>
         <td>{}</td>
         <td>true</td>
-        <td>undefined</td>
+        <td>true</td>
         <td>true</td>
         <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>{}</td>
-        <td>undefined</td>
-        <td>true</td>
-        <td>undefined</td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>undefined</td>
-        <td></td>
-        <td>true</td>
-        <td>undefined</td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>{}</td>
-        <td>true</td>
-        <td>undefined</td>
-        <td>undefined</td>
         <td></td>
         <td></td>
         <td></td>
@@ -153,10 +133,71 @@ and <code>progress.hasProgressed()</code>.
         <td>{}</td>
         <td>undefined</td>
         <td>undefined</td>
+        <td>true</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>undefined</td>
+        <td></td>
+        <td>undefined</td>
+        <td>true</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>{}</td>
+        <td>true</td>
+        <td>undefined</td>
+        <td>true</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>[a, [b, [a]], [b, [], b, []]]</td>
+      </tr>
+      <tr>
+        <td>{}</td>
+        <td>undefined</td>
+        <td>true</td>
         <td>undefined</td>
         <td></td>
         <td></td>
         <td></td>
+        <td>[a, [a], [a]]</td>
+      </tr>
+      <tr>
+        <td>undefined</td>
+        <td></td>
+        <td>true</td>
+        <td>undefined</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>[a, [a]]</td>
+      </tr>
+      <tr>
+        <td>{}</td>
+        <td>true</td>
+        <td>true</td>
+        <td>undefined</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>[a, [b, [a]], [b, [b]]]</td>
+      </tr>
+      <tr>
+        <td>{}</td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>[a, [], a]</td>
       </tr>
       <tr>
         <td>undefined</td>
@@ -166,6 +207,7 @@ and <code>progress.hasProgressed()</code>.
         <td>undefined</td>
         <td>false</td>
         <td></td>
+        <td>[a, []]</td>
       </tr>
       <tr>
         <td>{}</td>
@@ -175,6 +217,7 @@ and <code>progress.hasProgressed()</code>.
         <td>undefined</td>
         <td>false</td>
         <td></td>
+        <td>[a, [b, [a]], [b, []]]</td>
       </tr>
       <tr>
         <td>undefined</td>
@@ -184,6 +227,7 @@ and <code>progress.hasProgressed()</code>.
         <td>true</td>
         <td>false</td>
         <td></td>
+        <td>[a, [a]]</td>
       </tr>
       <tr>
         <td>{}</td>
@@ -193,6 +237,7 @@ and <code>progress.hasProgressed()</code>.
         <td>true</td>
         <td>false</td>
         <td></td>
+        <td>[a, [b, [a]], [b, [b]]]</td>
       </tr>
       <tr>
         <td>undefined</td>
@@ -202,6 +247,7 @@ and <code>progress.hasProgressed()</code>.
         <td>undefined</td>
         <td>true</td>
         <td></td>
+        <td>[a, []]</td>
       </tr>
       <tr>
         <td>{}</td>
@@ -211,6 +257,7 @@ and <code>progress.hasProgressed()</code>.
         <td>undefined</td>
         <td>true</td>
         <td></td>
+        <td>[a, [b, [a]], [b, []]]</td>
       </tr>
       <tr>
         <td>undefined</td>
@@ -220,6 +267,7 @@ and <code>progress.hasProgressed()</code>.
         <td>true</td>
         <td>true</td>
         <td>false</td>
+        <td>[a, [a], []]</td>
       </tr>
       <tr>
         <td>{}</td>
@@ -229,6 +277,7 @@ and <code>progress.hasProgressed()</code>.
         <td>true</td>
         <td>true</td>
         <td>false</td>
+        <td>[a, [b, [a]], [b, [b], []]]</td>
       </tr>
       <tr>
         <td>undefined</td>
@@ -238,6 +287,7 @@ and <code>progress.hasProgressed()</code>.
         <td>true</td>
         <td>true</td>
         <td>true</td>
+        <td>[a, [a], []]</td>
       </tr>
       <tr>
         <td>{}</td>
@@ -247,6 +297,7 @@ and <code>progress.hasProgressed()</code>.
         <td>true</td>
         <td>true</td>
         <td>true</td>
+        <td>[a, [b, [a]], [b, [b], [], []]]</td>
       </tr>
     </table>
   </body>
