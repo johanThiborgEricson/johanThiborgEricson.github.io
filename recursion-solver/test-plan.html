@@ -1,0 +1,253 @@
+<html>
+  <head>
+    <title>Test plan for Recursion Solver</title>
+  </head>
+  <body>
+    <h1>States</h1>
+    <p>
+Recursion Solver maintains a number of simple data structures
+to determine how to solve recursions without having to call
+its functions more than necessary.
+Together with the return values of the progress object,
+the contents of the data structures form a state that tells
+Recursion Solver if it should call the function,
+call <code>progress.onRecursion</code>
+or return a memoized result from an earlier call with an equal key.
+Different states will also update the data structures in different ways.
+    </p>
+    <p>
+There are seven factors that can influence the state of Recursion Solver.
+Four of them is read at the beginning of the algorithm
+to determine if the function should be run or not.
+    </p>
+    <ol>
+      <li>
+<code>this.memo[key]</code> might be <code>undefined</code>
+or a memoized record from an earlier call with the same key.
+In the tables below, a memoized record is symbolized by an empty object
+<code>{}</code> for brevity, even though such an object
+really contains the properties
+<code>result</code>, <code>progress</code> and <code>list</code>.
+      </li>
+      <li>
+<code>this.memo[key].list[this.currentRecursion]</code> is
+<code>true</code> if the function associated with this key
+has been detected to be part of a recursive call in the function with the key
+<code>this.currentRecursion</code>,
+and <code>undefined</code> otherwise.
+This data structure keeps track of functions that may have stored
+incomplete values as intermediate results of another keys' iteration.
+      </li>
+      <li>
+<code>this.isOnStack[key]</code> indicates if the current call is part of
+a recursive call,
+that is if a call with the same key is currently on the stack.
+      </li>
+      <li>
+<code>this.alreadyEvaluated[key]</code> keeps track of
+if a call that is involved in the recursion of another call
+needs to be reevaluated.
+      </li>
+    </ol>
+    <p>
+If a method decides that its function should be run,
+it might decide to run it many times,
+depending on if <code>this.isRecursive[key]</code> is true,
+and the return value of <code>progress.doIterate()</code>
+and <code>progress.hasProgressed()</code>.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <td>memo</td>
+          <td>list</td>
+          <td>stack</td>
+          <td>alreadyEvaluated</td>
+          <td>isRecursive</td>
+          <td>doIterate</td>
+          <td>hasProgressed</td>
+        </tr>
+      </thead>
+      <tr>
+        <td>{}</td>
+        <td>undefined</td>
+        <td>true</td>
+        <td>true</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>undefined</td>
+        <td></td>
+        <td>true</td>
+        <td>true</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>{}</td>
+        <td>true</td>
+        <td>true</td>
+        <td>true</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>{}</td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td>true</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>undefined</td>
+        <td></td>
+        <td>undefined</td>
+        <td>true</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>{}</td>
+        <td>true</td>
+        <td>undefined</td>
+        <td>true</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>{}</td>
+        <td>undefined</td>
+        <td>true</td>
+        <td>undefined</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>undefined</td>
+        <td></td>
+        <td>true</td>
+        <td>undefined</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>{}</td>
+        <td>true</td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>{}</td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>undefined</td>
+        <td></td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td>false</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>{}</td>
+        <td>true</td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td>false</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>undefined</td>
+        <td></td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td>true</td>
+        <td>false</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>{}</td>
+        <td>true</td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td>true</td>
+        <td>false</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>undefined</td>
+        <td></td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td>true</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>{}</td>
+        <td>true</td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td>true</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>undefined</td>
+        <td></td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td>true</td>
+        <td>true</td>
+        <td>false</td>
+      </tr>
+      <tr>
+        <td>{}</td>
+        <td>true</td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td>true</td>
+        <td>true</td>
+        <td>false</td>
+      </tr>
+      <tr>
+        <td>undefined</td>
+        <td></td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td>true</td>
+        <td>true</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td>{}</td>
+        <td>true</td>
+        <td>undefined</td>
+        <td>undefined</td>
+        <td>true</td>
+        <td>true</td>
+        <td>true</td>
+      </tr>
+    </table>
+  </body>
+</html>
